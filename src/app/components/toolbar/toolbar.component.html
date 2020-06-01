@@ -1,0 +1,50 @@
+<div class="content-scroll-indicator">
+    <div class="indicator" #scrollIndicator></div>
+</div>
+
+<div class="toolbar-cylinder">
+    <div class="toolbar-content">
+
+        <div class="logo">
+            <a href="#" (click)="requestNavigation('home-cylinder', $event)" #logo>
+                <div>
+                    <span>fausto</span>
+                </div>
+                <div>
+                    <span>german</span>
+                </div>
+            </a>
+        </div>
+
+        <div class="toolbar-menu">
+            <div class="menu-button"></div>
+            <ul #menuListItems>
+                <li>
+                    <a href="/#intro" class="active" (click)="requestNavigation('home-cylinder', $event)"
+                        [ngClass]="{ 'active': (currentElement === 0) }">
+                        <span class="slide">INTRO</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/#about" (click)="requestNavigation('about-cylinder', $event)"
+                        [ngClass]="{ 'active': (currentElement === 1) }">
+                        <span class="slide">WHO I AM</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/#knowledge" (click)="requestNavigation('knowledge-cylinder', $event)"
+                        [ngClass]="{ 'active': (currentElement === 2) }">
+                        <span class="slide">WHAT I KNOW</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/#contact" (click)="requestNavigation('contact-cylinder', $event)"
+                        [ngClass]="{ 'active': (currentElement === 3) }">
+                        <span class="slide">SAY HELLO</span>
+                        <!-- <span class="slide">Say hi 👋</span> -->
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

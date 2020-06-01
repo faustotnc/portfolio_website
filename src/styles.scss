@@ -1,0 +1,34 @@
+/* You can add global styles to this file, and also import other style files */
+@import './helper.scss';
+
+:root {
+    // --color-primary: #2d322c;
+    // --color-secondary: #e9e6df;
+
+    --color-primary: #f1f1f1;
+    // --color-secondary: #312f44;
+    --color-secondary: color(black);
+}
+
+
+// Inter Variable Font --> https://rsms.me/inter/
+@import url('https://rsms.me/inter/inter.css');
+html { font-family: 'Inter', sans-serif; }
+@supports (font-variation-settings: normal) {
+    html { font-family: 'Inter var', sans-serif; }
+}
+
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+}
+
+body, html {
+    // background: #f7f3f0;
+    background: var(--color-primary);
+    -webkit-font-smoothing: antialiased;
+}

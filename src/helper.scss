@@ -1,0 +1,311 @@
+
+/**
+ * 
+**/
+@mixin font($typeface: "primary", $weight: 'regular', $style: 'normal') {
+    // Determines the font family
+    @if $typeface == "primary" {
+        font-family: pt-sans-pro, sans-serif;
+    } @else if $typeface == "secondary" {
+        // font-family: williams-caslon-text, serif;
+        font-family: williams-caslon-text, serif;
+    // } @else if $typeface == "secondary" {
+        // font-family: pt-sans-narrow, sans-serif;
+    } @else {
+        @error "Font hierarchy not recognized. '#{$typeface}' is not part of your loaded fonts.";
+    }
+
+    // Determines the font weight
+    $primary_font_weights: (light: 300, regular: 400, demi: 600, bold: 700);
+    $secondary_font_weights: (regular: 400, bold: 700);
+    @if ($typeface == 'primary' and map-has-key($primary_font_weights, $weight)) {
+        font-weight: map-get($primary_font_weights, $weight);
+    } @else if ($typeface == 'secondary' and map-has-key($secondary_font_weights, $weight)) {
+        font-weight: map-get($secondary_font_weights, $weight);
+    } @else {
+        $chose_font_family: if($typeface == 'primary', $primary_font_weights, $secondary_font_weights);
+        @error "Font weight not recognized. '#{$weight}' is not part of the selected font's font-weights. Please choose one of the following: #{$chose_font_family}";
+    }
+
+    // Determines the font style
+    @if $style == 'italic' {
+        font-style: italic;
+    } @else if $style == 'normal' {
+        font-style: normal;
+    } @else {
+        @error "Font style not recognized. '#{$style}' is not a valid font style.";
+    }
+}
+
+
+
+// [{$primaryColor, $accentColor} description: Defines the colors of the App]
+@function color($colorName: primary) {
+    $colorList: (
+        primary: #ebeae9,
+        black: #010101,
+        grey: #dbdbdb,
+        white: #f5f3f3
+    );
+
+    @if (map-has-key($colorList, $colorName)) {
+        @return map-get($colorList, $colorName);
+    } @else {
+        @error "Color name not recognized. '#{$colorName}' is not part of the defined color list";
+    }
+}
+
+
+
+@function strip-unit($value) {
+    @return $value / ($value * 0 + 1);
+}
+  
+@mixin fluid-type($min-font-size, $max-font-size, $min-vw, $max-vw) {
+    $u1: unit($min-vw);
+    $u2: unit($max-vw);
+    $u3: unit($min-font-size);
+    $u4: unit($max-font-size);
+    
+    @if $u1 == $u2 and $u1 == $u3 and $u1 == $u4 {
+        & {
+            font-size: $min-font-size;
+            @media screen and (min-width: $min-vw) {
+                font-size: calc(#{$min-font-size} + #{strip-unit($max-font-size - $min-font-size)} * ((100vw - #{$min-vw}) / #{strip-unit($max-vw - $min-vw)}));
+            }
+            @media screen and (min-width: $max-vw) {
+                font-size: $max-font-size;
+            }
+        }
+    }
+}
+@mixin fluid-value($min-font-size, $max-font-size, $min-vw, $max-vw, $prop) {
+    $u1: unit($min-vw);
+    $u2: unit($max-vw);
+    $u3: unit($min-font-size);
+    $u4: unit($max-font-size);
+    
+    @if $u1 == $u2 and $u1 == $u3 and $u1 == $u4 {
+        & {
+            #{$prop}: $min-font-size;
+            @media screen and (min-width: $min-vw) {
+                #{$prop}: calc(#{$min-font-size} + #{strip-unit($max-font-size - $min-font-size)} * ((100vw - #{$min-vw}) / #{strip-unit($max-vw - $min-vw)}));
+            }
+            @media screen and (min-width: $max-vw) {
+                #{$prop}: $max-font-size;
+            }
+        }
+    }
+}
+
+
+@mixin customSelectColor($bg, $fg) {
+    &::selection {
+        background: rgba($bg, 0.99); /* WebKit/Blink Browsers */
+        color: $fg;
+    }
+    &::-moz-selection {
+        background: rgba($bg, 0.99); /* WebKit/Blink Browsers */
+        color: $fg;
+    }
+}
+
+
+
+
+@function HardShadow($colors, $number_of_shadows) {
+	// @warn red(nth($colors, 1));
+	$final_color: "";
+	$current_color_string: "";
+
+	@for $color_position from 1 through length($colors) {
+		$start_point: "";
+		@if (1 >= $color_position) {
+			$start_point: $color_position
+		} @else {
+            $start_point: ($color_position - 1) * ($number_of_shadows + 1)
+        }
+
+		@for $shadow_value from $start_point through ($number_of_shadows * $color_position) {
+			$current_color: nth($colors, $color_position);
+            $current_color_string: $current_color_string + "-#{$shadow_value}px #{$shadow_value}px 0px #{$current_color}, ";
+        }
+        $final_color: $final_color + $current_color_string;
+    }
+	$final_color: str-slice($final_color, 0, str-length($final_color) - 2);
+	@return #{ $final_color };
+}
+
+
+
+@mixin scrollbar {
+	&::-webkit-scrollbar {
+		width: 4px;
+		height: 4px;
+        background: transparent;
+    }
+	&::-webkit-scrollbar-button {
+		height: 0;
+        width: 0;
+    }
+    &::-webkit-scrollbar-track {
+        background: #FFF;
+    }
+	&::-webkit-scrollbar-thumb {
+        background: #727272;
+    }
+	&:window-inactive {
+        background: #DEDEDE;
+    }
+}
+
+// Disables the view of the scrollbar
+@mixin scrollbarNone {
+	&::-webkit-scrollbar {
+		width: 0px;
+		height: 0px;
+        background: transparent;
+    }
+	&::-webkit-scrollbar-button {
+		height: 0px;
+        width: 0px;
+    }
+	&::-webkit-scrollbar-track {
+        background: #FFF;
+    }
+	&::-webkit-scrollbar-thumb {
+        background: #727272;
+    }
+	&:window-inactive {
+        background: #DEDEDE;
+    }
+}
+
+
+
+
+// [$type description: Material Design Easingns]
+@function easing($type: "standard") {
+	@if $type == "standard" {
+        @return cubic-bezier(0.4, 0.0, 0.2, 1);
+    } @else if $type == "decelerate" {
+		@return cubic-bezier(0.0, 0.0, 0.2, 1);
+    } @else if $type == "accelerate" {
+		@return cubic-bezier(0.4, 0.0, 1, 1);
+    } @else if $type == "sharp" {
+        @return cubic-bezier(0.4, 0.0, 0.6, 1);
+    }
+}
+
+
+
+
+// Blocks the text flow
+@mixin ellipsis {
+	text-overflow: ellipsis;
+	white-space: nowrap;
+    overflow: hidden;
+}
+
+@mixin line-ellipsis($n){
+	display: -webkit-box;
+	-webkit-line-clamp: $n;
+	-webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+
+
+// [$level description: Material Design Shadows]
+@mixin shadow( $level: 1 ){
+	@if $level == 1 {
+        box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24);
+    } @else if $level == 2 {
+		box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
+	} @else if $level == 3 {
+		box-shadow: 0 10px 20px rgba(0, 0, 0, .19), 0 6px 6px rgba(0, 0, 0, .23);
+	} @else if $level == 4 {
+		box-shadow: 0 14px 28px rgba(0, 0, 0, .25), 0 10px 10px rgba(0, 0, 0, .22);
+	} @else if $level == 5 {
+        box-shadow: 0 19px 38px rgba(0, 0, 0, .30), 0 15px 12px rgba(0, 0, 0, .22);
+    }
+}
+
+
+
+
+// Gives the Display-flex stuff easely
+@mixin flex($justify, $direction) {
+	display: -webkit-flex;
+	justify-content: $justify;
+    flex-direction: $direction;
+}
+
+
+
+// Input Slider
+@mixin slider-track {
+	width: 100%;
+	height: 2px;
+	cursor: pointer;
+	animate: 0.2s;
+	background: #000;
+    border-radius: 2px;
+}
+@mixin slider-thumb{
+	width: 0px;
+	height: 0px;
+	padding: 8px;
+	border-radius: 50%;
+	background: #000;
+	cursor: pointer;
+	-webkit-appearance: none;
+    border: none;
+}
+
+
+// Locks the text selection and image pointer
+@mixin no-select{
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-khtml-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+
+
+// Maintains aspect ratio for elements
+@mixin aspect-ratio($width, $height) {
+	position: relative;
+	&:before {
+		display: block;
+		content: "";
+		width: 100%;
+        padding-top: ($height / $width) * 100%;
+    }
+	> .content {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+        bottom: 0;
+    }
+}
+
+
+
+@mixin verticalDegree($color1, $color2) {
+	background: $color1;
+	background: -webkit-linear-gradient($color1, $color2);
+	background: -o-linear-gradient($color1, $color2);
+	background: -moz-linear-gradient($color1, $color2);
+    background: linear-gradient($color1, $color2);
+}
+@mixin horizontal-gradient($color1, $color2) {
+	background: $color1;
+	background: -webkit-linear-gradient(left, $color1 , $color2);
+	background: -o-linear-gradient(right, $color1, $color2);
+	background: -moz-linear-gradient(right, $color1, $color2);
+    background: linear-gradient(to right, $color1 , $color2);
+}
