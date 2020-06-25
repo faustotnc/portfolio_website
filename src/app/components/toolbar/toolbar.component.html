@@ -1,50 +1,40 @@
-<div class="content-scroll-indicator">
-    <div class="indicator" #scrollIndicator></div>
-</div>
+<header class="toolbar-cylinder">
 
-<div class="toolbar-cylinder">
-    <div class="toolbar-content">
+    <div class="toolbar-container" #toolbar
+        [ngClass]="{ 'isScrolling': (currentScrollPos > 1), 'mobileMenuOpen': isMenuActive} ">
+        <div class="wrapper">
+            <h1 class="title" data-no-ellipse-cursor><a routerLink="/">fausto german</a></h1>
 
-        <div class="logo">
-            <a href="#" (click)="requestNavigation('home-cylinder', $event)" #logo>
-                <div>
-                    <span>fausto</span>
-                </div>
-                <div>
-                    <span>german</span>
-                </div>
-            </a>
-        </div>
+            <div class="right">
+                <nav data-no-ellipse-cursor>
+                    <a routerLink="/about">ABOUT</a>
+                    <a routerLink="/resume">RESUME</a>
+                    <a routerLink="/contact">CONTACT</a>
+                </nav>
 
-        <div class="toolbar-menu">
-            <div class="menu-button"></div>
-            <ul #menuListItems>
-                <li>
-                    <a href="/#intro" class="active" (click)="requestNavigation('home-cylinder', $event)"
-                        [ngClass]="{ 'active': (currentElement === 0) }">
-                        <span class="slide">INTRO</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="/#about" (click)="requestNavigation('about-cylinder', $event)"
-                        [ngClass]="{ 'active': (currentElement === 1) }">
-                        <span class="slide">WHO I AM</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="/#knowledge" (click)="requestNavigation('knowledge-cylinder', $event)"
-                        [ngClass]="{ 'active': (currentElement === 2) }">
-                        <span class="slide">WHAT I KNOW</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="/#contact" (click)="requestNavigation('contact-cylinder', $event)"
-                        [ngClass]="{ 'active': (currentElement === 3) }">
-                        <span class="slide">SAY HELLO</span>
-                        <!-- <span class="slide">Say hi 👋</span> -->
-                    </a>
-                </li>
-            </ul>
+                <button class="menu-toggle" (click)="toggleMenu()" aria-label="Toggle Menu" role="button">
+                    <div class="menu-icon">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <span class="menu-label">
+                        <p *ngIf="this.isMenuActive; else isMenuActiveElseMenuButton">Close</p>
+                        <ng-template #isMenuActiveElseMenuButton>
+                            <p>Menu</p>
+                        </ng-template>
+                    </span>
+                </button>
+            </div>
         </div>
     </div>
-</div>
+
+    <div class="mobile-menu" [ngClass]="{ 'mobileMenuOpen': isMenuActive} ">
+        <nav data-no-ellipse-cursor>
+            <a routerLink="/" (click)="toggleMenu()">HOME</a>
+            <a routerLink="/about" (click)="toggleMenu()">ABOUT</a>
+            <a routerLink="/resume" (click)="toggleMenu()">RESUME</a>
+            <a routerLink="/contact" (click)="toggleMenu()">CONTACT</a>
+        </nav>
+    </div>
+</header>

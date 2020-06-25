@@ -32,7 +32,7 @@ export class AnimationLoop {
 
     // The function that will be executed recursively.
     private CallBackFunction: (loopEventObject: LoopEvent) => void;
-    
+
     // The ID of the loop's instance
     private LOOP_ID: number;
 
@@ -42,7 +42,7 @@ export class AnimationLoop {
     private frameRate = 0;
     private runningFrame = 0;
     private initTime = new Date();
-    
+
     // An object with extra information about the
     // state of the loop.
     private readonly LoopEventObject: LoopEvent = {
@@ -58,7 +58,7 @@ export class AnimationLoop {
     private readonly REQUEST_ANIMATION_FRAME = (loop: () => void) => {
         if (isPlatformBrowser(this.platform)) return requestAnimationFrame(loop) || webkitRequestAnimationFrame(loop);
     }
-    
+
     // Cross browser animation frame cancellation
     private readonly CANCEL_ANIMATION_FRAME = (loop: number) => {
         if (isPlatformBrowser(this.platform) && cancelAnimationFrame) {
@@ -76,8 +76,8 @@ export class AnimationLoop {
         if (isPlatformBrowser(this.platform)) {
             this.frameRate = (frameRate >= 60 || frameRate <= 0 || frameRate === undefined) ? 30 : frameRate;
             this.CallBackFunction = callback;
-        
-        
+
+
             if (this.LoopState !== 'running') {
                 const loop = () => {
                     // How many frames have passed since the class was initialized

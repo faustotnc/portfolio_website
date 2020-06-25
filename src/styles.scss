@@ -2,12 +2,10 @@
 @import './helper.scss';
 
 :root {
-    // --color-primary: #2d322c;
-    // --color-secondary: #e9e6df;
-
-    --color-primary: #f1f1f1;
-    // --color-secondary: #312f44;
-    --color-secondary: color(black);
+    // These values are updated in the
+    // app.component.ts based on the route.
+    --color-primary: #813f18;
+    --color-toolbar: #f0e6c3;
 }
 
 
@@ -18,6 +16,17 @@ html { font-family: 'Inter', sans-serif; }
     html { font-family: 'Inter var', sans-serif; }
 }
 
+@font-face {
+    font-family: messapia-sans;
+    font-weight: bold;
+    src: url("/assets/mess/Messapia-Bold.otf") ;
+}
+@font-face {
+    font-family: messapia-serif;
+    font-weight: bold;
+    src: url("/assets/mess/Messapia-Regular.otf") ;
+}
+
 
 
 * {
@@ -25,10 +34,19 @@ html { font-family: 'Inter', sans-serif; }
     padding: 0;
     box-sizing: border-box;
     outline: none;
+    cursor: none;
+
+    &.alt-font {
+        font-family: 'messapia-sans', sans-serif;
+    }
+    &.alt-font-serif {
+        font-family: 'messapia-serif', serif;
+    }
 }
 
 body, html {
     // background: #f7f3f0;
     background: var(--color-primary);
     -webkit-font-smoothing: antialiased;
+    cursor: none;
 }

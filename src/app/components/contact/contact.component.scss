@@ -1,149 +1,198 @@
 @import '../../../helper.scss';
 
-.contact-cylinder {
-    padding-top: 10vh;
-    @include fluid-value(72px, 150px, 100px, 1600px, margin-top);
-    .contact-wrapper {
 
-        .section-title {
-            h1 {
-                @include fluid-value(32px, 104px, 100px, 1400px, font-size);
-                @include fluid-value(-1.6px, -3.2px, 100px, 1400px, letter-spacing);
-                @media screen and (max-width: 500px) {
-                    @include fluid-value(28px, 48px, 100px, 500px, font-size);
-                }
-                font-weight: 750;
-                word-spacing: 0.5rem;
-                // color: var(--color-secondary);
-                color: color(black);
-                opacity: 0.9;
-            }
-        }
 
-        .contact-section-content {
-            display: grid;
-            grid-template-columns: 15% 60% 15%;
-            margin-top: 64px;
-            @media screen and (max-width: 450px) {
-                margin-top: 32px;
-            }
-            @media screen and (max-width: 900px) {
-                margin-top: 24px;
-            }
+main.contact-page-cylinder {
+    // background: color(primary);
 
-            div.email {
-                grid-column-start: 2;
-                grid-column-end: 3;
-                @media screen and (max-width: 450px) {
-                    text-align: left;
-                    grid-column-start: 1;
-                    grid-column-end: 4;
-                    margin: 64px 0;
-                    margin-top: 42px;
-                }
-                @media screen and (max-width: 900px) {
-                    margin: 72px 0;
-                }
-                margin: 96px 0;
-                text-align: center;
-        
-                a {
-                    @include fluid-type(20px, 40px, 100px, 1920px); // fluid font size
-                    @media screen and (max-width: 500px) {
-                        @include fluid-value(16px, 26px, 100px, 500px, font-size);
-                    }
-                    text-decoration: none;
-                    @include font(primary, regular);
-                    color: color(black);
-        
-                    @include flex(center, row);
-                    display: inline-flex;
-                    align-items: center;
-        
-                    p {
-                        display: inline-block;
-                        overflow: hidden;
-                        position: relative;
-                        span.email {
-                            display: inline-block;
-                            transform: translateY(100%);
-                        }
-                        span.button--underline-effect {
-                            background: color(black);
-                        }
-                    }
-        
-                    &:hover {
-                        div.arrow {
-                            transform: rotate(45deg);
-                        }
-                    }
-        
-        
-                    div.arrow {
-                        // width: 28px;
-                        // height: 28px;
-                        @include fluid-value(20px, 28px, 100px, 1400px, width);
-                        @include fluid-value(20px, 28px, 100px, 1400px, height);
-                        margin-left: 24px;
-                        display: inline-block;
-                        position: relative;
-                        bottom: -2px;
-                        transform: rotate(0);
-                        transition: 1s cubic-bezier(0.77, 0, 0.175, 1) transform;
-                        @media screen and (max-width: 350px) {
-                            display: none;
-                        }
-        
-                        span {
-                            width: 0;
-                            height: 2px;
-                            background: #111;
-                            display: inline-block;
-                            position: absolute;
-                            top: 0;
-                            right: 0;
-        
-                            &:nth-child(2) {
-                                transform: rotate(-90deg);
-                                transform-origin: right;
-                                top: -1px;
-                            }
-                            &:nth-child(3) {
-                                transform: rotate(-45deg);
-                                transform-origin: left;
-                                top: unset;
-                                right: unset;
-                                bottom: -2px;
-                                left: 0;
-                            }
-                        }
-                    }
-                }
-            }
+    // Makes the selection of the text in the
+    // home page be appropriate for the theme of the website.
+    * { @include customSelectColor(black, var(--color-primary)); }
 
-            div.contact-message {
-                grid-column-start: 2;
-                grid-column-end: 3;
-                @media screen and (max-width: 900px) { grid-column-end: 4; }
-                @media screen and (max-width: 550px) { grid-column-start: 1; }
-                display: grid;
-                grid-template-columns: repeat(8, 1fr);
+    @include flex(center, row);
 
-                div.content {
-                    grid-column-start: 1;
-                    grid-column-end: 7;
-        
-                    @media screen and (max-width: 900px) { grid-column-end: 9; }
-                    // @media screen and (max-width: 850px) { grid-column-end: 6; }
-                    // @media screen and (max-width: 500px) { grid-column-end: 7; }
-
-                    p {
-                        font-size: 18px;
-                    }
-                }
-            }
-        }
-
+    .content-wrapper {
+        width: 90%;
+        max-width: 1200px;
     }
+
+
+    section.contact-hero-section {
+        height: 50vh; /* Fallback for browsers that do not support Custom Properties */
+        height: calc(var(--vh, 1vh) * 50);
+        text-align: center;
+
+        display: grid;
+        grid-template-rows: 1fr 0.1fr;
+
+        @media screen and (max-width: 650px) {
+            height: 40vh; /* Fallback for browsers that do not support Custom Properties */
+            height: calc(var(--vh, 1vh) * 40);
+        }
+
+        div {
+            grid-row-start: 2;
+
+            h1 {
+                color: var(--color-toolbar);
+                letter-spacing: -4.5px;
+                overflow: hidden;
+                @include fluid-value(64px, 112px, 400px, 1920px, font-size); // fluid font size
+                @media screen and (max-width: 950px) { line-height: 92px; }
+                
+                @media screen and (max-width: 624px) {
+                    line-height: 64px;
+                    letter-spacing: -1.5px;
+                    @include fluid-value(36px, 56px, 300px, 624px, font-size); // fluid font size
+                }
+    
+                span {
+                    display: inline-block;
+                    // transform: translateY(110%);
+                }
+            }
+        }
+    }
+
+
+    section.email {
+        margin-top: 96px;
+        text-align: center;
+
+        @media screen and (max-width: 650px) {
+            margin-top: 64px;
+        }
+
+        a {
+            @include fluid-value(18px, 32px, 400px, 1920px, font-size); // fluid font size
+            text-decoration: none;
+            color: #b8bdb5;
+
+            @include flex(center, row);
+            display: inline-flex;
+            align-items: center;
+
+            p {
+                display: inline-block;
+                overflow: hidden;
+                position: relative;
+                span.email {
+                    display: inline-block;
+                    // transform: translateY(100%);
+                }
+                span.button--underline-effect {
+                    background: var(--color-toolbar);
+                }
+            }
+
+            &:hover {
+                div.arrow {
+                    transform: rotate(45deg);
+                }
+            }
+
+
+            div.arrow {
+                width: 24px;
+                height: 24px;
+                margin-left: 24px;
+                display: inline-block;
+                position: relative;
+                bottom: -2px;
+                transform: rotate(0);
+                transition: 1s cubic-bezier(0.77, 0, 0.175, 1) transform;
+
+                span {
+                    width: 24px;
+                    height: 2px;
+                    background: #b8bdb5;
+                    display: inline-block;
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+
+                    &:nth-child(2) {
+                        transform: rotate(-90deg);
+                        transform-origin: right;
+                    }
+                    &:nth-child(3) {
+                        transform: rotate(-45deg);
+                        transform-origin: left;
+                        top: unset;
+                        right: unset;
+                        bottom: 0;
+                        left: 2px;
+                        width: 32px;
+                    }
+                }
+            }
+        }
+    }
+
+
+    section.message {
+        margin-top: 20vh;
+        margin-bottom: 10vh;
+        display: grid;
+        grid-template-columns: repeat(8, 1fr);
+        color: #1e1f1d;
+
+        @media screen and (max-width: 650px) {
+            margin-top: 96px;
+        }
+
+        div.content {
+            grid-column-start: 1;
+            grid-column-end: 4;
+
+            @media screen and (max-width: 850px) { grid-column-end: 6; }
+            @media screen and (max-width: 500px) { grid-column-end: 8; }
+
+            div.home-n-time {
+                margin: 48px 0;
+            }
+
+            .networks {
+                width: 100%;
+                @include flex(flex-start, row);
+                position: relative;
+                left: -16px;
+                margin-top: 64px;
+                a {
+                    padding: 0 8px;
+                    margin: 0 8px;
+                    svg {
+                        width: 20px;
+                        fill: #1e1f1d;
+                        transition: all .2s cubic-bezier(0.445, 0.05, 0.55, 0.95);
+                    };
+                    &:hover {
+                        svg {
+                            opacity: 0.7;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+    footer.footer-section {
+        width: 100%;        
+        div.end-info {
+            width: 100%;
+            padding-bottom: 5vh;
+            border-top: 1px solid #1e1f1d;
+            padding-top: 5vh;
+            p {
+                font-size: 12px;
+                margin-bottom: 12px;
+                color: #1e1f1d;
+                &:last-of-type {
+                    margin-bottom: 0;
+                }
+            }
+        }
+    }
+
 }

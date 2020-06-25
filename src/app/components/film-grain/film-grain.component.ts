@@ -20,9 +20,9 @@ export class FilmGrainComponent implements OnInit {
     patternSize = 256;
     patternScaleX = 1;
     patternScaleY = 1;
-    patternRefreshInterval = 30;
-    patternAlpha = 40;
-    grainDensityPercent = 3;
+    patternRefreshInterval = 60;
+    patternAlpha = 32;
+    grainDensityPercent = 1;
 
     // Canvas information Variables
     public Frame = 0;
@@ -39,6 +39,9 @@ export class FilmGrainComponent implements OnInit {
     ) { }
     ngOnInit() {
         if (isPlatformBrowser(this.platform)) {
+            // Dynamic Pattern Size
+            this.patternSize = (window.innerWidth / window.innerHeight < 1) ? 100 : (window.innerWidth / window.innerHeight) * 100;
+
             // Grain pattern
             this.patternCtx = this.patternCanvas.getContext('2d');
             this.patternData = this.patternCtx.createImageData(this.patternSize, this.patternSize);
@@ -103,7 +106,7 @@ export class FilmGrainComponent implements OnInit {
      */
     private DrawFilmGrain() {
         this.CONTEXT.clearRect(0, 0, this.CANVAS.width, this.CANVAS.height);
-        this.CONTEXT.fillStyle = this.CONTEXT.createPattern(this.patternCanvas, 'repeat'),
-            this.CONTEXT.fillRect(0, 0, this.CANVAS.width, this.CANVAS.height);
+        this.CONTEXT.fillStyle = this.CONTEXT.createPattern(this.patternCanvas, 'repeat');
+        this.CONTEXT.fillRect(0, 0, this.CANVAS.width, this.CANVAS.height);
     }
 }

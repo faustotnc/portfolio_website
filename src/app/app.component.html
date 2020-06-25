@@ -1,34 +1,12 @@
-<!-- <fausto-film-grain></fausto-film-grain> -->
-<!-- <fausto-game></fausto-game> -->
-
-<fausto-screen-restrictions></fausto-screen-restrictions>
 <fausto-preloader *ngIf="!pageLoaded"></fausto-preloader>
+<fausto-page-transition></fausto-page-transition>
+<fausto-film-grain></fausto-film-grain>
+<fausto-toolbar></fausto-toolbar>
+<fausto-mouse-cursor></fausto-mouse-cursor>
 
-<div class="page-cylinder fixed-screen">
-    <div class="page-content-columns">
-        <div class="content-left-top">
-            <fausto-toolbar></fausto-toolbar>
-        </div>
-    </div>
+
+<div class="content-wrapper">
+    <silky-scroll momentum="10">
+        <router-outlet></router-outlet>
+    </silky-scroll>
 </div>
-
-<silky-scroll momentum="10">
-    <div class="page-cylinder">
-        <div class="page-content-columns">
-            <div class="content-right-bottom">
-                <fausto-cursor-trail [contentHeight]="cursorCanvasHeight"></fausto-cursor-trail>
-                <fausto-home></fausto-home>
-                <fausto-about (ContentBottom)="updateCanvasHeight($event)"></fausto-about>
-                <fausto-knowledge></fausto-knowledge>
-                <fausto-contact></fausto-contact>
-                <fausto-footer></fausto-footer>
-            </div>
-        </div>
-    </div>
-</silky-scroll>
-
-
-<!-- <div class="updateBrowser" *ngIf="isIE">
-    <h1>Well this is awkward...</h1>
-    <p>Please update your browser or use a Chrome/Safari/Firefox for a better experience.</p>
-</div> -->

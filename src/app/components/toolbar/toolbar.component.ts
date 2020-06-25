@@ -1,8 +1,6 @@
-import { Component, OnInit, ViewChild, ElementRef, HostListener, Renderer2, Inject, PLATFORM_ID } from '@angular/core';
-import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { SilkyScrollService } from '../../silky-scroll';
-import { PreloaderService } from '../../services/preloader.service';
-import { TweenLite, Expo } from 'gsap/dist/gsap';
+import { Component, OnInit, Renderer2, ViewChild, ElementRef, PLATFORM_ID, Inject } from '@angular/core';
+import { SilkyScrollService } from '../../silky-scroll/service/silky-scroll.service';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
     selector: 'fausto-toolbar',
@@ -10,112 +8,76 @@ import { TweenLite, Expo } from 'gsap/dist/gsap';
     styleUrls: ['./toolbar.component.scss']
 })
 export class ToolbarComponent implements OnInit {
-    @ViewChild('logo', { static: true }) Logo: ElementRef;
-    @ViewChild('scrollIndicator', { static: true }) ScrollIndicator: ElementRef;
-    @ViewChild('menuListItems', { static: true }) MenuListItems: ElementRef;
-    public currentElement = 0;
-    private page_sections: NodeListOf<Element>;
-    private iLogoTop = 0;
-
-    private scrollPos = 0;
+    @ViewChild('toolbar') TOOLBAR: ElementRef;
+    public currentScrollPos = 0;
+    public isMenuActive = false;
 
     constructor(
-        private SILKY: SilkyScrollService,
-        private RENDER: Renderer2,
-        @Inject(DOCUMENT) private DOC: Document,
-        @Inject(PLATFORM_ID) private platform: object,
-        private PRELOADER: PreloaderService
+        private readonly SILKY_SCROLL: SilkyScrollService,
+        private readonly RENDER: Renderer2,
+        @Inject(PLATFORM_ID) private platform: object
     ) { }
-    ngOnInit() {
-        this.page_sections = this.DOC.querySelectorAll('section.page-section');
 
-        this.doLogoTransform();
-
+    public ngOnInit(): void {
+        const logistic_ramp = (x: number) => (64 * 0.009 * Math.exp(x / 24)) / (2 + (0.009 * Math.exp(x / 24)));
 
         if (isPlatformBrowser(this.platform)) {
-            this.PRELOADER.pageLoaded.subscribe(() => {
-                this.showMenuItems();
+            this.SILKY_SCROLL.scrollListener.subscribe(m => {
+                this.currentScrollPos = m.scrollY;
+                this.RENDER.setStyle(this.TOOLBAR.nativeElement, 'transform', `translateY(${64 - logistic_ramp(m.scrollY)}px)`);
             });
         }
-
-        this.SILKY.scrollListener.subscribe(scroll => {
-            this.scrollPos = scroll.scrollY;
-            this.doVariableMenuSize();
-            this.doLogoTransform();
-
-            // Show the scroll indicator with a clip-path
-            let scrollInd = 100 - (scroll.scrollY / (scroll.contentHeight + window.innerHeight)) * 100;
-            let clipPath = `inset(0 0 ${scrollInd}% 0)`;
-            this.RENDER.setStyle(this.ScrollIndicator.nativeElement, 'clip-path', clipPath);
-            this.RENDER.setStyle(this.ScrollIndicator.nativeElement, '-webkit-clip-path', clipPath);
-        })
     }
 
 
+    /**
+    * Toggles the main menu of the website.
+    * This function is in charge of showing the menu
+    * upon user request, set the userClickedMenuButton
+    * cookie, and make the CTA arrow disappear.
+    */
+    public toggleMenu(source?: string) {
+        // Toggles the 'active' state of the menu
+        this.isMenuActive = !this.isMenuActive;
 
-    private doVariableMenuSize() {
+        // Set the hoverPercent of the menu item for the current route
+        // to 100% so that it is always visible.
+        // this.Routes[this.currentRoutePosition].hoverPercent = 100;
 
-        let isSectionTopAboveScreenMiddle = (el: Element) => {
-            return el.getBoundingClientRect().top < (window.innerHeight / 1.5);
-        }
-        let isSectionBottomAboveScreenMiddle = (el: Element) => {
-            return el.getBoundingClientRect().bottom < (window.innerHeight / 1.5);
-        }
+        // Changes the theme of the toolbar to white while the menu is open,
+        // and then back to the previous theme when the menu gets closed.
+        // if (this.isMenuActive) {
+        //     this.prevToolbarTheme = this.currentToolbarTheme;
+        //     this.currentToolbarTheme = 'light';
+        // } else {
+        //     this.currentToolbarTheme = this.prevToolbarTheme;
+        // }
 
-        let isSectionOnScreen = (el: Element) => {
-            return isSectionTopAboveScreenMiddle(el) && !isSectionBottomAboveScreenMiddle(el);
-        }
+        // Sets the user-clicked-menu-button cookie when the user click on the menu button
+        // if (!this.COOKIES.check(this.CTACookieName)) { this.COOKIES.set(this.CTACookieName, 'true'); }
 
-        if (isSectionOnScreen(this.page_sections[0])) this.currentElement = 0;
-        if (isSectionOnScreen(this.page_sections[1])) this.currentElement = 1;
-        if (isSectionOnScreen(this.page_sections[2])) this.currentElement = 2;
-        if (isSectionOnScreen(this.page_sections[3])) this.currentElement = 3;
+        // Animations
+        // anime({
+        //     targets: this.mainMenuCylinder.nativeElement,
+        //     opacity: (this.isMenuActive) ? 1 : 0,
+        //     easing: 'easeOutExpo',
+        //     duration: 700
+        // });
+        // anime({
+        //     targets: this.MenuItemsList.nativeElement.children,
+        //     opacity: [(this.isMenuActive) ? 0 : 1, 1],
+        //     translateY: [(this.isMenuActive) ? 50 : 0, 0],
+        //     easing: 'easeOutExpo',
+        //     duration: 1500,
+        //     delay: anime.stagger(100)
+        // });
+        // anime({
+        //     targets: this.MoreInfoContainer.nativeElement,
+        //     opacity: [(this.isMenuActive) ? 0 : 1, 1],
+        //     translateY: [(this.isMenuActive) ? 50 : 0, 0],
+        //     easing: 'easeOutExpo',
+        //     duration: 1500
+        // });
     }
 
-
-    @HostListener('window:resize') doLogoTransform() {
-        if (isPlatformBrowser(this.platform)) {
-            if (window.innerHeight <= 430) {
-                this.iLogoTop = 0;
-            } else if (window.innerHeight <= 550) {
-                this.iLogoTop = 64;
-            } else {
-                this.iLogoTop = 96;
-            }
-
-            let logoY = this.iLogoTop - (-this.iLogoTop * Math.exp(-(this.scrollPos * this.scrollPos) / 130000) + this.iLogoTop);
-            this.RENDER.setStyle(this.Logo.nativeElement, 'transform', `translateY(${logoY}px)`);
-        }
-    }
-
-
-    public requestNavigation(section: string, event) {
-        event.preventDefault();
-        let el = document.getElementsByClassName(section)[0];
-        this.SILKY.scrollTo(el.getBoundingClientRect().top)
-    }
-
-
-
-    private showMenuItems() {
-        let menuListItems = [...this.MenuListItems.nativeElement.getElementsByClassName('slide')]
-        TweenLite.to(menuListItems, {
-            opacity: 1,
-            y: 0,
-            ease: Expo.easeOut,
-            duration: 1.7,
-            stagger: 0.2,
-            delay: 0.7,
-        })
-
-        let logoItems = [...this.Logo.nativeElement.getElementsByTagName('span')]
-        TweenLite.to(logoItems, {
-            opacity: 1,
-            y: 0,
-            ease: Expo.easeOut,
-            duration: 1.7,
-            stagger: 0.2,
-            delay: 0.3
-        })
-    }
 }

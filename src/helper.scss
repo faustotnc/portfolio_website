@@ -1,84 +1,8 @@
 
-/**
- * 
-**/
-@mixin font($typeface: "primary", $weight: 'regular', $style: 'normal') {
-    // Determines the font family
-    @if $typeface == "primary" {
-        font-family: pt-sans-pro, sans-serif;
-    } @else if $typeface == "secondary" {
-        // font-family: williams-caslon-text, serif;
-        font-family: williams-caslon-text, serif;
-    // } @else if $typeface == "secondary" {
-        // font-family: pt-sans-narrow, sans-serif;
-    } @else {
-        @error "Font hierarchy not recognized. '#{$typeface}' is not part of your loaded fonts.";
-    }
-
-    // Determines the font weight
-    $primary_font_weights: (light: 300, regular: 400, demi: 600, bold: 700);
-    $secondary_font_weights: (regular: 400, bold: 700);
-    @if ($typeface == 'primary' and map-has-key($primary_font_weights, $weight)) {
-        font-weight: map-get($primary_font_weights, $weight);
-    } @else if ($typeface == 'secondary' and map-has-key($secondary_font_weights, $weight)) {
-        font-weight: map-get($secondary_font_weights, $weight);
-    } @else {
-        $chose_font_family: if($typeface == 'primary', $primary_font_weights, $secondary_font_weights);
-        @error "Font weight not recognized. '#{$weight}' is not part of the selected font's font-weights. Please choose one of the following: #{$chose_font_family}";
-    }
-
-    // Determines the font style
-    @if $style == 'italic' {
-        font-style: italic;
-    } @else if $style == 'normal' {
-        font-style: normal;
-    } @else {
-        @error "Font style not recognized. '#{$style}' is not a valid font style.";
-    }
-}
-
-
-
-// [{$primaryColor, $accentColor} description: Defines the colors of the App]
-@function color($colorName: primary) {
-    $colorList: (
-        primary: #ebeae9,
-        black: #010101,
-        grey: #dbdbdb,
-        white: #f5f3f3
-    );
-
-    @if (map-has-key($colorList, $colorName)) {
-        @return map-get($colorList, $colorName);
-    } @else {
-        @error "Color name not recognized. '#{$colorName}' is not part of the defined color list";
-    }
-}
-
-
-
 @function strip-unit($value) {
     @return $value / ($value * 0 + 1);
 }
-  
-@mixin fluid-type($min-font-size, $max-font-size, $min-vw, $max-vw) {
-    $u1: unit($min-vw);
-    $u2: unit($max-vw);
-    $u3: unit($min-font-size);
-    $u4: unit($max-font-size);
-    
-    @if $u1 == $u2 and $u1 == $u3 and $u1 == $u4 {
-        & {
-            font-size: $min-font-size;
-            @media screen and (min-width: $min-vw) {
-                font-size: calc(#{$min-font-size} + #{strip-unit($max-font-size - $min-font-size)} * ((100vw - #{$min-vw}) / #{strip-unit($max-vw - $min-vw)}));
-            }
-            @media screen and (min-width: $max-vw) {
-                font-size: $max-font-size;
-            }
-        }
-    }
-}
+
 @mixin fluid-value($min-font-size, $max-font-size, $min-vw, $max-vw, $prop) {
     $u1: unit($min-vw);
     $u2: unit($max-vw);

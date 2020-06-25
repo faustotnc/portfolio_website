@@ -31,9 +31,9 @@ export class SilkyScrollService {
     }
 
 
-    private scroll_to_EventSource = new Subject<number>(); // event source
+    private scroll_to_EventSource = new Subject<{ position: number, isImmediate?: boolean }>(); // event source
     public scrollToListener = this.scroll_to_EventSource.asObservable(); // listener
-    public scrollTo(position: number) { // emitter
-        this.scroll_to_EventSource.next(position);
+    public scrollTo(position: number, isImmediate: boolean = false) { // emitter
+        this.scroll_to_EventSource.next({ position, isImmediate });
     }
 }

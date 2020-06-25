@@ -1,4 +1,4 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, HammerModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 // to build the static app, run
@@ -11,44 +11,26 @@ import { NgModule } from '@angular/core';
 // To deploy to GCP, run
 // npm run deploy:gcp
 
-import { HelperService } from './services/helper.service';
-
+import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { SilkyScrollModule } from './silky-scroll/silky-scroll.module';
-import { HomeComponent } from './components/home/home.component';
-import { AboutComponent } from './components/about/about.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
-import { FilmGrainComponent } from './components/film-grain/film-grain.component';
-import { CursorTrailComponent } from './components/cursor-trail/cursor-trail.component';
-import { FooterComponent } from './components/footer/footer.component';
-import { KnowledgeComponent } from './components/knowledge/knowledge.component';
-import { GameComponent } from './components/game/game.component';
-import { ContactComponent } from './components/contact/contact.component';
 import { PreloaderComponent } from './components/preloader/preloader.component';
-import { ScreenRestrictionsComponent } from './components/screen-restrictions/screen-restrictions.component'
-
+import { FilmGrainComponent } from './components/film-grain/film-grain.component';
+import { SilkyScrollModule } from "./silky-scroll/silky-scroll.module";
+import { HelperService } from './services/helper.service';
+import { MouseCursorComponent } from './components/mouse-cursor/mouse-cursor.component';
+import { PageTransitionComponent } from './components/page-transition/page-transition.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 
+
 @NgModule({
     declarations: [
-        AppComponent,
-        HomeComponent,
-        AboutComponent,
-        ToolbarComponent,
-        FilmGrainComponent,
-        CursorTrailComponent,
-        FooterComponent,
-        KnowledgeComponent,
-        GameComponent,
-        ContactComponent,
-        PreloaderComponent,
-        ScreenRestrictionsComponent
+        AppComponent, ToolbarComponent, FilmGrainComponent, PreloaderComponent,
+        PageTransitionComponent, MouseCursorComponent
     ],
     imports: [
-        BrowserModule.withServerTransition({ appId: 'serverApp' }),
-        SilkyScrollModule,
-        ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+        HammerModule, BrowserModule.withServerTransition({ appId: 'serverApp' }), AppRoutingModule, SilkyScrollModule, ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
     ],
     providers: [HelperService],
     bootstrap: [AppComponent]

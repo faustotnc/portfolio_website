@@ -1,51 +1,89 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer2, Output, EventEmitter, Inject, PLATFORM_ID, AfterContentInit, AfterViewInit } from '@angular/core';
-import { SilkyScrollService } from '../../silky-scroll/index';
-import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, Renderer2, OnDestroy, PLATFORM_ID, Inject } from '@angular/core';
+import { SilkyScrollService } from '../../silky-scroll/service/silky-scroll.service';
+import { Subscription } from 'rxjs';
+import { Title, Meta } from '@angular/platform-browser';
+import { isPlatformBrowser } from '@angular/common';
+
 
 @Component({
     selector: 'fausto-about',
     templateUrl: './about.component.html',
     styleUrls: ['./about.component.scss']
 })
-export class AboutComponent implements OnInit {
-    // @ViewChild('imgWrapper', { static: true }) IMGWrapper: ElementRef;
-    @ViewChild('parentCylinder', { static: true }) ParentCylinder: ElementRef;
-    @Output() ContentBottom = new EventEmitter();
+export class AboutComponent implements OnInit, AfterViewInit, OnDestroy {
+    @ViewChild('heroImage') private HeroImage: ElementRef;
+    @ViewChild('wrapper') private Wrapper: ElementRef;
+    // Observers
+    private silkyScrollObserver: Subscription;
+    private pagePageTransitionObserver: Subscription;
 
 
     constructor(
-        public SCROLLER: SilkyScrollService,
-        private RENDER: Renderer2,
-        @Inject(DOCUMENT) private DOC: Document,
-        @Inject(PLATFORM_ID) private platform: object,
+        private readonly SILKY_SCROLL: SilkyScrollService,
+        private TITLE: Title,
+        private META: Meta,
+        private readonly RENDER: Renderer2,
+        @Inject(PLATFORM_ID) private platform: object
     ) { }
-    ngOnInit() {
-        setTimeout(() => {
-            this.heroImageLoaded();
-        }, 200);
+
+
+
+    /**
+     * Fired when the component is initialized
+     */
+    public ngOnInit(): void {
+        this.setSEOTags()
+    }
+
+
+    /**
+     * Fired when the contents of the component are rendered
+     */
+    public ngAfterViewInit(): void {
+
         if (isPlatformBrowser(this.platform)) {
-            // let bout = [...this.Backdrop.nativeElement.children];
-            this.SCROLLER.scrollListener.subscribe(scroll => {
-                // let tenPercent = (window.innerHeight * 35) / 100;
-                // if (scroll.scrollY > (window.innerHeight - tenPercent)) {
-                //     let scale = this.scaleFunction(scroll.scrollY - (window.innerHeight - tenPercent));
+            // Updates the Silky scroller
+            this.SILKY_SCROLL.requestScrollerUpdate();
 
-                //     this.RENDER.setStyle(this.IMGWrapper.nativeElement, 'transform', `scale(${(scale * 0.2) + 0.8})`);
-                //     this.RENDER.setStyle(this.IMGWrapper.nativeElement, 'filter', `grayscale(${100 - (scale * 100)}%) contrast(${(scale * 10) + 90}%)`);
-                // }
-            })
+            this.silkyScrollObserver = this.SILKY_SCROLL.scrollListener.subscribe(m => {
+                this.RENDER.setStyle(this.HeroImage.nativeElement, 'transform', `translateY(${m.scrollY / 3}px)`);
+            });
         }
+
     }
 
-    heroImageLoaded() {
-        if (isPlatformBrowser(this.platform)) {
-            this.SCROLLER.requestScrollerUpdate();
-            this.ContentBottom.emit(this.ParentCylinder.nativeElement.getBoundingClientRect().bottom)
-        }
+
+    /**
+     * Fired when the component is destroy (by navigating to another route, for example)
+     */
+    public ngOnDestroy(): void {
+        if (this.silkyScrollObserver) this.silkyScrollObserver.unsubscribe();
     }
 
-    scaleFunction(x: number) {
-        return (-Math.exp(-(x * x) / 200000) + 1)
+
+    /**
+     * Sets the SEO meta tags for each one of the routes.
+     */
+    private setSEOTags() {
+        // Sets the title for this route
+        this.TITLE.setTitle('Fausto - About');
+        this.META.updateTag({ name: 'description', content: 'My name is Fausto German. I\'m a creative programmer pursuing a degree in computer science and machine learning engineering.' });
+
+        // Sets the rich cards meta tags for this route
+        this.META.updateTag({ property: 'og:title', content: 'Fausto German\'s About Page' });
+        this.META.updateTag({ property: 'og:site_name', content: 'Fausto German - About' });
+        this.META.updateTag({ property: 'og:url', content: 'https://faustogerman.com/about' });
+        this.META.updateTag({ property: 'og:description', content: 'My name is Fausto German. I\'m a creative programmer pursuing a degree in computer science and machine learning engineering.' });
     }
 
+
+    /**
+     * Fired when the hero images are loaded
+     * @param $event The event emitted when the image loads
+     * @param img Which image has loaded
+     */
+    public heroImagesLoaded($event: any, img: string) {
+        // Updates the Silky scroller
+        this.SILKY_SCROLL.requestScrollerUpdate();
+    }
 }

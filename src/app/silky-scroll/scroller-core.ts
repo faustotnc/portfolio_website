@@ -4,12 +4,9 @@ import { Renderer2, ElementRef } from '@angular/core';
 
 export class ScrollerCore {
     public _SCROLL_ELEMENT: ElementRef;
-    private _DOC: Document;
-    private _RENDER: Renderer2;
 
     private canScroll = true;
     private momentum = 0;
-    private reqAnimationID: number;
     private ScrollObject = {
         y: 0,
         scrollRequest: 0,
@@ -21,14 +18,18 @@ export class ScrollerCore {
     private documentHeight = 0;
     private scrollListenerCallback: (SilkyScrollData) => void;
 
-    private isPlatformBrowser: boolean;
-
-
-    constructor(private doc: Document, render: Renderer2, isPlatformBrowser: boolean) {
-        this._DOC = doc;
-        this._RENDER = render;
-
-        this.isPlatformBrowser = isPlatformBrowser;
+    constructor(
+        private readonly _DOC: Document,
+        private readonly _RENDER: Renderer2,
+        private readonly isPlatformBrowser: boolean
+    ) {
+        if (isPlatformBrowser) {
+            const anim = () => {
+                this.doSoftScroll();
+                window.requestAnimationFrame(anim);
+            }
+            window.requestAnimationFrame(anim);
+        }
     }
 
 
@@ -45,8 +46,6 @@ export class ScrollerCore {
     public set setMomentum(m: number) {
         this.momentum = ((m <= 1) ? 1.1 : (1 / m)) || 0.5;
     }
-
-    // public set setDocumentHeight
 
 
 
@@ -69,20 +68,17 @@ export class ScrollerCore {
      * @param delta the amount by which the scroll should change
      */
     public setScrollDelta(delta: number) {
-        // Does not let the content scroll past the top
-        // or the bottom of the website
         if (this.canScroll) {
+            // Does not let the content scroll past the top
+            // or the bottom of the website
             if (delta < 0 && this.scrollY <= 0) {
                 this.scrollY = 0;
-            } else if (delta > 0 && this.scrollY >= this.documentHeight) {
-                this.scrollY = this.documentHeight;
+            } else if (delta > 0 && this.scrollY >= (this.documentHeight - window.innerHeight)) {
+                this.scrollY = this.documentHeight - window.innerHeight;
             } else {
                 this.scrollY += delta;
             }
         }
-
-        if (this.ScrollObject) this.ScrollObject.scrollRequest++;
-        if (!this.reqAnimationID) this.reqAnimationID = requestAnimationFrame(() => this.doSoftScroll());
     }
 
 
@@ -97,7 +93,6 @@ export class ScrollerCore {
     public doSoftScroll() {
         if (this.canScroll && this.isPlatformBrowser) {
             // gets the current scroll of the window/body
-            // var scrollY = window.pageYOffset || this.DOC.documentElement.scrollTop || this.DOC.body.scrollTop || 0;
             let scrollY = this.scrollY;
 
             // updates the current y-value of the main container until is it
@@ -109,8 +104,8 @@ export class ScrollerCore {
 
             // Every time we scroll, we check that the documentHeight variable
             // is storing the correct value for the maximum scrolling view
-            let actualHeight = this._SCROLL_ELEMENT.nativeElement.offsetHeight - window.innerHeight;
-            if (actualHeight !== this.documentHeight) this.updateScroller();
+            let elementHeight = this._SCROLL_ELEMENT.nativeElement.scrollHeight;
+            if (elementHeight !== this.documentHeight) this.updateScroller();
 
             if (this.ScrollObject.y !== scrollY) {
                 let scrollData: SilkyScrollData = {
@@ -121,8 +116,6 @@ export class ScrollerCore {
                 this.scrollListenerCallback(scrollData);
                 this._RENDER.setStyle(this._SCROLL_ELEMENT.nativeElement, 'transform', `translate3d(0px, ${-this.ScrollObject.y}px, 0px)`)
             }
-
-            this.reqAnimationID = this.ScrollObject.scrollRequest > 0 ? requestAnimationFrame(() => this.doSoftScroll()) : null;
         }
     }
 
@@ -130,13 +123,24 @@ export class ScrollerCore {
     /**
      * Scrolls to a given position on the page
      * @param position the end position in px
+     * @param isImmediate when true, the scroller will scroll to the provided position without an animation
      */
-    public scrollTo(position: number) {
-        // Safety check the position
-        if ((this.scrollY + position) < 0) position = 0;
-        if (position > this.documentHeight) position = this.documentHeight;
+    public scrollTo(position: number, isImmediate: boolean = false) {
+        // When the resulting scroll position is outside the top of the page,
+        // we set the scroll position to be at the top of the page
+        // When the resulting scroll position is outside the bottom of the page,
+        // we set the scroll position to be at the bottom of the page
+        // Otherwise, we keep the passed position
+        const pos = (position < 0) ? 0 : (position > this.documentHeight) ? this.documentHeight : position;
 
-        this.scrollY += position;
+        if (isImmediate) {
+            this.ScrollObject.y = pos;
+            this._RENDER.setStyle(this._SCROLL_ELEMENT.nativeElement, 'transform', `translate3d(0px, ${pos}px, 0px)`)
+        }
+
+        this.scrollY = pos;
+
+        // Request a scroll
         this.setScrollDelta(1)
     }
 
@@ -146,13 +150,15 @@ export class ScrollerCore {
      */
     public updateScroller() {
         if (this.isPlatformBrowser) {
-            this.documentHeight = this._SCROLL_ELEMENT.nativeElement.offsetHeight - window.innerHeight;
+            this.documentHeight = this._SCROLL_ELEMENT.nativeElement.scrollHeight;
 
             // Lock the scroll if the content's height is smaller
             // than the window's height
             if (this.documentHeight < window.innerHeight) {
-                this.documentHeight = this._SCROLL_ELEMENT.nativeElement.clientHeight;
-                this.canScroll = false;
+                this.documentHeight = this._SCROLL_ELEMENT.nativeElement.scrollHeight;
+                this.lockScroll()
+            } else {
+                this.unlockScroll()
             }
 
             this.setBodyStyles();
@@ -168,16 +174,4 @@ export class ScrollerCore {
         this.scrollListenerCallback = callback;
     }
 
-
-
-    // public navigationScroll(section: string) {
-    //     let el = document.getElementsByClassName(section)[0];
-
-    //     if (el) {
-    //         let scrollDist = el.getBoundingClientRect().top;
-
-    //         this.scrollY += scrollDist
-    //         this.doScrollCalculations(1)
-    //     }
-    // }
 }

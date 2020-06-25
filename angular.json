@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "faustoWeb2020": {
+    "FaustoWeb2020": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,6 +17,9 @@
           "skipTests": true
         },
         "@schematics/angular:guard": {
+          "skipTests": true
+        },
+        "@schematics/angular:interceptor": {
           "skipTests": true
         },
         "@schematics/angular:module": {
@@ -36,12 +39,12 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/browser",
+            "outputPath": "dist/FaustoWeb2020/browser",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
-            "aot": false,
+            "aot": true,
             "assets": [
               "src/favicon.ico",
               "src/assets",
@@ -65,7 +68,6 @@
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -89,18 +91,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "faustoWeb2020:build"
+            "browserTarget": "FaustoWeb2020:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "faustoWeb2020:build:production"
+              "browserTarget": "FaustoWeb2020:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "faustoWeb2020:build"
+            "browserTarget": "FaustoWeb2020:build"
           }
         },
         "test": {
@@ -138,23 +140,24 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "faustoWeb2020:serve"
+            "devServerTarget": "FaustoWeb2020:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "faustoWeb2020:serve:production"
+              "devServerTarget": "FaustoWeb2020:serve:production"
             }
           }
         },
         "server": {
           "builder": "@angular-devkit/build-angular:server",
           "options": {
-            "outputPath": "dist/server",
-            "main": "src/main.server.ts",
+            "outputPath": "dist/FaustoWeb2020/server",
+            "main": "server.ts",
             "tsConfig": "tsconfig.server.json"
           },
           "configurations": {
             "production": {
+              "outputHashing": "media",
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -162,14 +165,37 @@
                 }
               ],
               "sourceMap": false,
-              "optimization": {
-                "scripts": false,
-                "styles": true
-              }
+              "optimization": true
             }
+          }
+        },
+        "serve-ssr": {
+          "builder": "@nguniversal/builders:ssr-dev-server",
+          "options": {
+            "browserTarget": "FaustoWeb2020:build",
+            "serverTarget": "FaustoWeb2020:server"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "FaustoWeb2020:build:production",
+              "serverTarget": "FaustoWeb2020:server:production"
+            }
+          }
+        },
+        "prerender": {
+          "builder": "@nguniversal/builders:prerender",
+          "options": {
+            "browserTarget": "FaustoWeb2020:build:production",
+            "serverTarget": "FaustoWeb2020:server:production",
+            "routes": [
+              "/"
+            ]
+          },
+          "configurations": {
+            "production": {}
           }
         }
       }
     }},
-  "defaultProject": "faustoWeb2020"
+  "defaultProject": "FaustoWeb2020"
 }

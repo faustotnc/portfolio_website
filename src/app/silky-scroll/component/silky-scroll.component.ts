@@ -4,6 +4,7 @@ import {
 } from '@angular/core';
 
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { Router, Event, NavigationEnd, NavigationError } from '@angular/router';
 import { SilkyScrollService, SilkyScrollData } from '../service/silky-scroll.service';
 import { ScrollerCore } from '../scroller-core';
 
@@ -29,9 +30,11 @@ export class SilkyScrollComponent implements AfterViewInit {
         private elementRef: ElementRef,
         public RENDER: Renderer2,
         public SCROLLER_SERVICE: SilkyScrollService,
-        // private COMMUNICATIONS: CommunicationsService
+        private router: Router
     ) {
-        this.SCROLLER = new ScrollerCore(DOC, RENDER, isPlatformBrowser(this.platform));
+        if (isPlatformBrowser(platform)) {
+            this.SCROLLER = new ScrollerCore(DOC, RENDER, isPlatformBrowser(this.platform));
+        }
     }
 
 
@@ -41,32 +44,43 @@ export class SilkyScrollComponent implements AfterViewInit {
      * are created.
      */
     ngAfterViewInit() {
-        this.SCROLLER._SCROLL_ELEMENT = this.SCROLL;
+        if (isPlatformBrowser(this.platform)) {
+            this.SCROLLER._SCROLL_ELEMENT = this.SCROLL;
 
-        // Listens for when there is a request to update the scroller
-        this.SCROLLER_SERVICE.updateScrollerListener.subscribe(() => {
+            // Listens for when there is a request to update the scroller
+            this.SCROLLER_SERVICE.updateScrollerListener.subscribe(() => {
+                // sets the body's height equal to
+                // the scrolling container's height
+                this.onWindowResized();
+            });
+
+
+            this.SCROLLER.scrollListener(scrollData => {
+                this.SCROLLER_SERVICE.scrollListenerEmitter(scrollData);
+                this.onScroll.emit(scrollData)
+            })
+
+
+            this.SCROLLER_SERVICE.scrollToListener.subscribe(to => {
+                this.SCROLLER.scrollTo(to.position, to.isImmediate);
+            })
+
             // sets the body's height equal to
             // the scrolling container's height
             this.onWindowResized();
-        });
 
+            // First update to the scroll object
+            this.SCROLLER.doSoftScroll();
 
-        this.SCROLLER.scrollListener(scrollData => {
-            this.SCROLLER_SERVICE.scrollListenerEmitter(scrollData);
-            this.onScroll.emit(scrollData)
-        })
-
-
-        this.SCROLLER_SERVICE.scrollToListener.subscribe(to => {
-            this.SCROLLER.scrollTo(to);
-        })
-
-        // sets the body's height equal to
-        // the scrolling container's height
-        this.onWindowResized();
-
-        // First update to the scroll object
-        this.SCROLLER.doSoftScroll();
+            // We also need to listen to route changes so that
+            // we can update the state of the scroller every time
+            // the user navigates to a new route.
+            this.router.events.subscribe((event: Event) => {
+                if (event instanceof NavigationEnd) {
+                    this.SCROLLER_SERVICE.scrollTo(0, true)
+                }
+            });
+        }
     }
 
 
@@ -75,7 +89,9 @@ export class SilkyScrollComponent implements AfterViewInit {
      * @param m The passed momentum
      */
     @Input('momentum') set momentumSet(m: string) {
-        this.SCROLLER.setMomentum = Number.parseFloat(m);
+        if (isPlatformBrowser(this.platform)) {
+            this.SCROLLER.setMomentum = Number.parseFloat(m);
+        }
     };
 
 
@@ -93,7 +109,9 @@ export class SilkyScrollComponent implements AfterViewInit {
      * Listens for the scroll events on the window
      */
     @HostListener('window:wheel', ['$event']) onWindowScrolled(event) {
-        this.SCROLLER.setScrollDelta(event.deltaY)
+        if (isPlatformBrowser(this.platform)) {
+            this.SCROLLER.setScrollDelta(event.deltaY)
+        }
     }
 
 
@@ -102,7 +120,9 @@ export class SilkyScrollComponent implements AfterViewInit {
      * @param event The touch event
      */
     @HostListener('window:touchstart', ['$event']) onTouchStarted(event: TouchEvent) {
-        this.touchY = event.touches[0].screenY;
+        if (isPlatformBrowser(this.platform)) {
+            this.touchY = event.touches[0].screenY;
+        }
     }
 
 
@@ -111,7 +131,9 @@ export class SilkyScrollComponent implements AfterViewInit {
      * @param event The touch event
      */
     @HostListener('window:touchmove', ['$event']) onTouchScrolled(event: TouchEvent) {
-        this.SCROLLER.setScrollDelta((this.touchY - event.touches[0].screenY) * 2);
-        this.touchY = event.touches[0].screenY;
+        if (isPlatformBrowser(this.platform)) {
+            this.SCROLLER.setScrollDelta((this.touchY - event.touches[0].screenY) * 2);
+            this.touchY = event.touches[0].screenY;
+        }
     }
 }

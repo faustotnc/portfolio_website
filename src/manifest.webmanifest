@@ -1,6 +1,8 @@
 {
-    "name": "Fausto German",
-    "short_name": "Fausto",
-    "theme_color": "#393a4a",
-    "background_color": "#f1f1f1"
+  "name": "Fausto German's Website",
+  "short_name": "Fausto's Website",
+  "theme_color": "#010101",
+  "background_color": "#e1e1e1",
+  "scope": "./",
+  "start_url": "./"
 }

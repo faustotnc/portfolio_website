@@ -1,46 +1,52 @@
-<section class="about-cylinder page-section" #parentCylinder>
-    <div class="about-wrapper">
-        <div class="section-title">
-            <h1>ABOUT ME</h1>
-        </div>
-        <div class="history">
-            <div class="mindset">
-                <h3>I moved to the United States at the age of fifteen with the intention of
-                    getting a better education. I believe that knowledge can break barriers, so I have been taking
-                    advantage of the resources to ensure I become an excellent computer scientist.</h3>
+<div class="about-cylinder">
+    <div class="about-wrapper" #wrapper>
+        <div class="left-column">
+
+            <div class="hero-image" #heroImage>
+                <div class="hero-image-wrapper">
+                    <img src="/assets/IMG_0497.jpeg" (load)="heroImagesLoaded($event, 'main-image')" alt="">
+                </div>
             </div>
-            <div class="history-left">I was born on October 02, 2000 in San Cristobal, Dominican Republic. From an
-                early age, I had a great inclination towards the world of technology, science, and everything that
-                allowed me to uncover new ideas. My interest for programming started at the age of thirteen when I
-                wanted to create a blog for my own. I quickly learned about HTML, CSS, and JavaScript. A couple of
-                months later, I had created my first website ever.
-            </div>
-            <div class="history-right">
-                <p>Although not a graphic designer at heart, I tend to have an eye for well-done designs and modern
-                    styles, and in the recent months I have become particularly interested in the world of artificial
-                    intelligence and neural networks.</p>
-                <p>I plan to specialize in mobile development as well as machine learning
-                    engineering so that can implement both my programming skills and my interest in quality design.</p>
-            </div>
+
         </div>
 
+        <div class="right-column">
+            <h1>Just a little more about me...</h1>
 
-        <!-- <div class="hero-image">
-            <div class="image-wrapper" #imgWrapper>
-                <picture class="picture-left">
-                    <source (load)="heroImageLoaded()" type="image/jpeg"
-                        srcset="./assets/images/fausto-yellow-jacket.480px.jpg">
-                    <img (load)="heroImageLoaded()" src="./assets/images/fausto-yellow-jacket.960px.jpg" alt="">
-                </picture>
+            <div class="content">
+                <p>
+                    I was born in the year 2000, in San Cristobal, Dominican Republic. From an
+                    early age I have had a great inclination towards the world of technology, science, and
+                    everything that allowed me to uncover new ideas. My interest for programming started at the age
+                    of thirteen when I wanted to create a blog for my own. I quickly learned about HTML, CSS, and
+                    JavaScript, then a couple of months later, I had created my first website ever.
+                </p>
 
-                <picture class="picture-right">
-                    <source (load)="heroImageLoaded()" type="image/jpeg"
-                        srcset="./assets/images/fausto-yellow-jacket.480px.jpg">
-                    <img (load)="heroImageLoaded()" src="./assets/images/fausto-yellow-jacket.960px.jpg" alt="">
-                </picture>
+                <p>
+                    Since I started programming, I became fascinated with the idea of creating something totally new
+                    with just a computer. After learning the basics of programming, I experimented with various web
+                    development technologies like Bootstrap, jQuery, and Flask. In the recent years, however, I have
+                    become more interested in artificial intelligence and machine learning engineering as a career.
+                </p>
+
+                <p>In 2020, I completed my Associate in Science degree at the <a href="https://www.rccc.edu/"
+                        rel="noopener" title=" Rowan-Cabarrus Community College" target="_blank"
+                        data-no-ellipse-cursor>Rowan-Cabarrus
+                        Community College</a>. I then transferred to the <a href="https://www.uncc.edu/" rel="noopener"
+                        title=" University of North Carolina at Charlotte" target="_blank"
+                        data-no-ellipse-cursor>University
+                        of North Carolina at Charlotte</a> to complete a bachelor's degree in Computer Science with
+                    the AI, Robotics, and Gaming concentration.</p>
+
+                <p>Want to know the details? Read my <a routerLink="/resume" data-no-ellipse-cursor>resume.</a></p>
             </div>
-        </div> -->
-
-
+        </div>
     </div>
-</section>
+
+    <footer class="footer-section">
+        <div class="end-info inner-container">
+            <p class="colum--one">Designed/Coded by Fausto German.</p>
+            <p class="colum--two">&copy; 2020 &ndash; Fausto German</p>
+        </div>
+    </footer>
+</div>
