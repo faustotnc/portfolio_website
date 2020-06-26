@@ -4,7 +4,10 @@
 
             <div class="hero-image" #heroImage>
                 <div class="hero-image-wrapper">
-                    <img src="/assets/IMG_0497.jpeg" (load)="heroImagesLoaded($event, 'main-image')" alt="">
+                    <img class="top-right-picture" src="./assets/images/fausto-yellow-jacket.480px.jpg"
+                        srcset="./assets/images/fausto-yellow-jacket.960px.jpg 2x, ./assets/images/fausto-yellow-jacket.240px.jpg 0.5x"
+                        alt="Picture of Fausto German with yellow jacket in New York."
+                        (load)="heroImagesLoaded($event, 'main-image')">
                 </div>
             </div>
 

@@ -102,6 +102,11 @@
         <h1>I run purely on JS...</h1>
         <p>It seems like you have disabled JavaScript in your browser. Please turn it on and then hit refresh.</p>
     </noscript>
+
+    <!-- We register the service worker from the index.html because angular SSR does not work when called from the main.ts file -->
+    <script>if ('serviceWorker' in navigator) navigator.serviceWorker.register('/ngsw-worker.js').catch(function (e) {
+            console.log('There was a problem installing the service worker', e)
+        });</script>
 </body>
 
 </html>
