@@ -18,6 +18,7 @@ export class AppComponent implements AfterContentInit {
     private pageLoadedSubscriber: Subscription;
     public isIE = false;
     private isFirstLoad = true;
+    public cursorColor = "#000000";
 
     constructor(
         @Inject(DOCUMENT) private DOC: Document,
@@ -61,18 +62,14 @@ export class AppComponent implements AfterContentInit {
     }
 
     private setThemeColors(url: string) {
-        if (url === '/about') {
-            this.DOC.documentElement.style.setProperty('--color-primary', '#e3e0d2');
-            this.DOC.documentElement.style.setProperty('--color-toolbar', '#ba6107');
-        } else if (url === "/contact") {
-            this.DOC.documentElement.style.setProperty('--color-primary', '#736752');
-            this.DOC.documentElement.style.setProperty('--color-toolbar', '#e4e8e2');
-        } else if (url === "/resume") {
+        if (url === "/resume") {
             this.DOC.documentElement.style.setProperty('--color-primary', '#f5f5f4');
             this.DOC.documentElement.style.setProperty('--color-toolbar', '#813f18');
+            this.cursorColor = "#000";
         } else {
-            this.DOC.documentElement.style.setProperty('--color-primary', '#282c47');
-            this.DOC.documentElement.style.setProperty('--color-toolbar', '#f0e6c3');
+            this.DOC.documentElement.style.setProperty('--color-primary', '#000');
+            this.DOC.documentElement.style.setProperty('--color-toolbar', '#f7f7f7');
+            this.cursorColor = "#b8bdb5";
         }
     }
 
@@ -101,18 +98,3 @@ export class AppComponent implements AfterContentInit {
         }
     }
 }
-
-
-
-
-
-// import { Component } from '@angular/core';
-
-// @Component({
-//     selector: 'fausto-root',
-//     templateUrl: './app.component.html',
-//     styleUrls: ['./app.component.scss']
-// })
-// export class AppComponent {
-
-// }

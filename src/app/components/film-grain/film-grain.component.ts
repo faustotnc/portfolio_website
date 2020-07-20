@@ -21,7 +21,7 @@ export class FilmGrainComponent implements OnInit {
     patternScaleX = 1;
     patternScaleY = 1;
     patternRefreshInterval = 60;
-    patternAlpha = 32;
+    patternAlpha = 48;
     grainDensityPercent = 1;
 
     // Canvas information Variables

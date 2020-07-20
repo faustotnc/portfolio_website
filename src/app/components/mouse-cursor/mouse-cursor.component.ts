@@ -23,7 +23,7 @@ export class MouseCursorComponent implements OnInit {
     private readonly HOLDING_RING_SIZE = 32;
     private readonly MAX_POINTER_SIZE = 5;
     private readonly DRAG_FACTOR = 3;
-    private readonly STRETCH_FACTOR = 3;
+    private readonly STRETCH_FACTOR = 6;
 
     // CURSOR STATUS: pointer, holding
     private CursorStatus = 'pointer';
@@ -59,7 +59,7 @@ export class MouseCursorComponent implements OnInit {
 
 
     /**
-     * Sets and input to update the status of the ring.
+     * Sets an input to update the status of the ring.
      */
     @Input() set ringStatus(value: string) {
         this.CursorStatus = value;
@@ -69,6 +69,14 @@ export class MouseCursorComponent implements OnInit {
         } else {
             this.ActualRingSize = this.MaxRingSize = this.NORMAL_RING_SIZE;
         }
+    }
+
+
+    /**
+     * Sets an input to update the color of the cursor.
+     */
+    @Input() set cursorColor(color: string) {
+        this.CURSOR_COLOR = (color) ? color : "#000000";
     }
 
 

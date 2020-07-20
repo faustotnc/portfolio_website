@@ -16,16 +16,16 @@ html { font-family: 'Inter', sans-serif; }
     html { font-family: 'Inter var', sans-serif; }
 }
 
-@font-face {
-    font-family: messapia-sans;
-    font-weight: bold;
-    src: url("/assets/mess/Messapia-Bold.otf") ;
-}
-@font-face {
-    font-family: messapia-serif;
-    font-weight: bold;
-    src: url("/assets/mess/Messapia-Regular.otf") ;
-}
+// @font-face {
+//     font-family: messapia-sans;
+//     font-weight: bold;
+//     src: url("/assets/mess/Messapia-Bold.otf") ;
+// }
+// @font-face {
+//     font-family: messapia-serif;
+//     font-weight: bold;
+//     src: url("/assets/mess/Messapia-Regular.otf") ;
+// }
 
 
 
@@ -36,12 +36,12 @@ html { font-family: 'Inter', sans-serif; }
     outline: none;
     cursor: none;
 
-    &.alt-font {
-        font-family: 'messapia-sans', sans-serif;
-    }
-    &.alt-font-serif {
-        font-family: 'messapia-serif', serif;
-    }
+    // &.alt-font {
+    //     font-family: 'messapia-sans', sans-serif;
+    // }
+    // &.alt-font-serif {
+    //     font-family: 'messapia-serif', serif;
+    // }
 }
 
 body, html {

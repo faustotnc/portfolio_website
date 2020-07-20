@@ -12,6 +12,7 @@ import { isPlatformBrowser } from '@angular/common';
 })
 export class AboutComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild('heroImage') private HeroImage: ElementRef;
+    @ViewChild('aboutScene') private AboutScene: ElementRef;
     @ViewChild('wrapper') private Wrapper: ElementRef;
     // Observers
     private silkyScrollObserver: Subscription;
@@ -46,7 +47,8 @@ export class AboutComponent implements OnInit, AfterViewInit, OnDestroy {
             this.SILKY_SCROLL.requestScrollerUpdate();
 
             this.silkyScrollObserver = this.SILKY_SCROLL.scrollListener.subscribe(m => {
-                this.RENDER.setStyle(this.HeroImage.nativeElement, 'transform', `translateY(${m.scrollY / 3}px)`);
+                this.RENDER.setStyle(this.HeroImage.nativeElement, 'transform', `translateY(${m.scrollY / 5.75}px)`);
+                this.RENDER.setStyle(this.AboutScene.nativeElement, 'transform', `translateY(${m.scrollY / 5}px)`);
             });
         }
 

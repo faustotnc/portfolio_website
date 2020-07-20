@@ -1,16 +1,48 @@
 @import "../../../helper.scss";
 
+fausto-about-scene {
+    display: block;
+    opacity: 0.75;
+}
 
 div.about-cylinder {
-    width: 90%;
+    width: 100%;
     // max-width: 1400px;
-    margin: auto;
     padding-top: 250px;
+    position: absolute;
+    
+    top: 0;
+    left: 0;
+
+    pointer-events: none;
+
+    .about-container {
+        width: 90%;
+        margin: auto;
+    }
 
 
     @media screen and (max-width: 1050px) {
         padding-top: 232px;
     }
+
+
+    .hero-title {
+        height: calc(calc(var(--vh, 1vh) * 100) - 200px);
+        height: calc(100vh - 200px);
+        text-align: center;
+        @include flex(center, column);
+
+        h1 {
+            @include fluid-value(48px, 144px, 300px, 1400px, font-size);
+            @include fluid-value(-1.6px, -4px, 400px, 1400px, letter-spacing);
+            // font-weight: 900;
+            word-spacing: 0.5rem;
+            color: #f7f7f7;
+            transform: translateY(-150px);
+        }
+    }
+
 
     .about-wrapper {
         width: 100%;
@@ -19,6 +51,8 @@ div.about-cylinder {
         grid-template-columns: 1fr 1fr;
         grid-gap: 64px;
         margin: auto;
+
+        pointer-events: all;
 
         padding-bottom: 15vh;
 
@@ -40,7 +74,7 @@ div.about-cylinder {
             a {
                 // font-weight: bold;
                 text-decoration: none;
-                color: var(--color-toolbar);
+                color: #b8bdb5;
                 &:hover {
                     text-decoration: underline;
                 }
@@ -79,7 +113,7 @@ div.about-cylinder {
             }
 
             p {
-                color: #402103;
+                color: var(--color-toolbar);
             }
 
             .content {
@@ -99,12 +133,12 @@ div.about-cylinder {
         div.end-info {
             width: 100%;
             padding-bottom: 5vh;
-            border-top: 1px solid #402103;
+            border-top: 1px solid var(--color-toolbar);
             padding-top: 5vh;
             p {
                 font-size: 12px;
                 margin-bottom: 12px;
-                color: #402103;
+                color: var(--color-toolbar);
                 &:last-of-type {
                     margin-bottom: 0;
                 }

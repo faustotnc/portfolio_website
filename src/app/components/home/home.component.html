@@ -1,16 +1,14 @@
-<fausto-rainbow-cursor [contentHeight]="heightOfContent" [panMove]="panPosition" [panStop]="panEnded">
-</fausto-rainbow-cursor>
+<div class="home-cylinder">
+    <fausto-home-scene></fausto-home-scene>
 
+    <div class="home-container">
+        <div class="wrapper">
+            <p>Computer Science & Machine Learning Engineering Student at the University of North Carolina at Charlotte.
+            </p>
 
-<div class="home-cylinder" (pan)="onPan($event)" (panend)="onPanEnd()" data-no-ellipse-cursor>
-    <div class="wrapper">
-        <p class="intro">
-            <span>Hi there!</span> I'm a <span><s>creative</s> programmer</span> pursuing a degree in <span>computer
-                science</span> with an specialization in <span>artificial intelligence</span>. I am a geek
-            with an interest for <span>anything sci-fi</span>, and a nerd that will not stop until the work is
-            <span>pixel-perfect</span>.
-        </p>
-
-        <p class="learn-more">Learn more <a routerLink="/about">about me!</a></p>
+            <p class="learn-more">
+                Learn More <a routerLink="about" data-no-ellipse-cursor>About Me</a>.
+            </p>
+        </div>
     </div>
 </div>
