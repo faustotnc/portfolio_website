@@ -1,6 +1,7 @@
-import { Component, ViewChild, ElementRef, Renderer2, AfterViewInit, OnDestroy, HostListener } from '@angular/core';
+import { Component, ViewChild, ElementRef, Renderer2, AfterViewInit, OnDestroy, HostListener, PLATFORM_ID, Inject } from '@angular/core';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { isPlatformBrowser } from '@angular/common';
 
 
 @Component({
@@ -8,13 +9,13 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
     templateUrl: './about-scene.component.html',
     styleUrls: ['./about-scene.component.scss']
 })
-export class AboutSceneComponent implements AfterViewInit {
+export class AboutSceneComponent implements AfterViewInit, OnDestroy {
     @ViewChild("sceneContainer") SCENE_CONTAINER: ElementRef;
 
     // World Preparation
-    private SCENE = new THREE.Scene();
+    private SCENE: THREE.Scene;
     private CAMERA: THREE.PerspectiveCamera;
-    private RENDERER = new THREE.WebGLRenderer();
+    private RENDERER: THREE.WebGLRenderer;
     private CONTROLS: OrbitControls;
 
     private WindowAnimation: number;
@@ -23,56 +24,88 @@ export class AboutSceneComponent implements AfterViewInit {
     private GraphSpheres: THREE.Mesh[] = [];
 
 
-    constructor(private RENDER: Renderer2) {
-        this.CAMERA = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        this.CONTROLS = new OrbitControls(this.CAMERA, this.RENDERER.domElement);
-    }
-
-
-    public ngAfterViewInit(): void {
-        this.RENDERER.setSize(window.innerWidth, window.innerHeight);
-        this.RENDER.appendChild(this.SCENE_CONTAINER.nativeElement, this.RENDERER.domElement);
-
-        // Adjust orbit controls
-        this.CONTROLS.autoRotate = true;
-        this.CONTROLS.enableDamping = true;
-        this.CONTROLS.enableZoom = false;
-        this.CONTROLS.enablePan = false;
-
-        // Set the camera's position
-        this.CAMERA.position.set(0, 0, 12);
-
-        // Adds lights to the scene
-        const AmbientLight = new THREE.AmbientLight(0x404040); // Soft white light
-        this.SCENE.add(AmbientLight);
-        var HemisphericLight = new THREE.HemisphereLight(0xAAAA99, 0x080820, 1); // Light at the top, dark at the bottom
-        this.SCENE.add(HemisphericLight);
-
-
-        // Axes helper
-        // var axesHelper = new THREE.AxesHelper(20);
-        // this.SCENE.add(axesHelper);
-
-
-        // Initializes the scene elements
-        this.AddRandomStars();
-        this.Add3dGraph();
-        this.Add3DGraphVertices();
-
-
-        // Renders the scene
-        const animate = () => {
-            this.WindowAnimation = requestAnimationFrame(animate);
-            // Required if controls.enableDamping or controls.autoRotate are set to true
-            this.CONTROLS.update();
-
-            this.AnimationLoop();
-            this.RENDERER.render(this.SCENE, this.CAMERA);
+    constructor(private RENDER: Renderer2, @Inject(PLATFORM_ID) private platform: object) {
+        if (isPlatformBrowser(platform)) {
+            this.SCENE = new THREE.Scene();
+            this.RENDERER = new THREE.WebGLRenderer();
+            this.CAMERA = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            this.CONTROLS = new OrbitControls(this.CAMERA, this.RENDERER.domElement);
         }
-        animate();
     }
 
 
+    /** Fired when the components of the page are initialized. */
+    public ngAfterViewInit(): void {
+        if (isPlatformBrowser(this.platform)) {
+            this.RENDERER.setSize(window.innerWidth, window.innerHeight);
+            this.RENDER.appendChild(this.SCENE_CONTAINER.nativeElement, this.RENDERER.domElement);
+
+            // Adjust orbit controls
+            this.CONTROLS.autoRotate = true;
+            this.CONTROLS.enableDamping = true;
+            this.CONTROLS.enableZoom = false;
+            this.CONTROLS.enablePan = false;
+
+            // Set the camera's position
+            this.CAMERA.position.set(0, 0, 12);
+
+            // Adds lights to the scene
+            const AmbientLight = new THREE.AmbientLight(0x404040); // Soft white light
+            this.SCENE.add(AmbientLight);
+            var HemisphericLight = new THREE.HemisphereLight(0xAAAA99, 0x080820, 1); // Light at the top, dark at the bottom
+            this.SCENE.add(HemisphericLight);
+
+
+            // Axes helper
+            // var axesHelper = new THREE.AxesHelper(20);
+            // this.SCENE.add(axesHelper);
+
+
+            // Initializes the scene elements
+            this.AddRandomStars();
+            this.Add3dGraph();
+            this.Add3DGraphVertices();
+
+
+            // Renders the scene
+            const animate = () => {
+                this.WindowAnimation = requestAnimationFrame(animate);
+                // Required if controls.enableDamping or controls.autoRotate are set to true
+                this.CONTROLS.update();
+
+                this.RENDERER.render(this.SCENE, this.CAMERA);
+            }
+            animate();
+        }
+    }
+
+
+
+    /** Fired when the component is destroyed. */
+    public ngOnDestroy(): void {
+        if (isPlatformBrowser(this.platform)) {
+            window.cancelAnimationFrame(this.WindowAnimation);
+            // Dispose of the scene
+            this.SCENE.dispose();
+        }
+    }
+
+
+
+    /** Resizes the world on window resize. */
+    @HostListener('window:resize', ['$event']) public resize() {
+        this.RENDERER.setSize(window.innerWidth, window.innerHeight);
+        this.CAMERA.aspect = window.innerWidth / window.innerHeight;
+        this.CAMERA.updateProjectionMatrix();
+    }
+
+
+
+    /**
+     * Computes a random float from upper to lower.
+     * @param upper The upper limit
+     * @param lower The lower limit
+     */
     private ComputeRandomPosition(upper: number, lower: number) {
         let x = (Math.random() * (upper - lower)) + lower;
         let y = (Math.random() * (upper - lower)) + lower;
@@ -82,11 +115,17 @@ export class AboutSceneComponent implements AfterViewInit {
 
 
 
+    /**
+     * Adds the vertices of the 3D graph.
+     * TODO: Make this more efficient.
+     */
     private Add3DGraphVertices() {
         for (let index = 0; index < this.GraphSpheres.length; index++) {
             const sphere = this.GraphSpheres[index];
             const sPos = sphere.position;
 
+            // Sorts the graph from smallest to largest distance from the
+            // distance of the current sphere.
             const sortedGraph = this.GraphSpheres.sort((a, b) => {
                 const aPos = a.position;
                 const bPos = b.position;
@@ -97,6 +136,7 @@ export class AboutSceneComponent implements AfterViewInit {
                 return distA - distB;
             })
 
+            // Draws a line between the current sphere and its 3 closest neighbors.
             sortedGraph.slice(1, 4).forEach(neighbor => {
                 var material = new THREE.LineBasicMaterial({ color: 0xffffff });
                 var points = [sPos, neighbor.position];
@@ -108,6 +148,8 @@ export class AboutSceneComponent implements AfterViewInit {
     }
 
 
+
+    /** Generates random spheres around the origin (0, 0, 0) of the 3D world. */
     private Add3dGraph() {
         for (let index = 0; index < 56; index++) {
             const colors = [0xE0AB0B, 0xE7545B, 0x7D0F05, 0x305A48, 0x507BDB, 0xC99369];
@@ -147,6 +189,7 @@ export class AboutSceneComponent implements AfterViewInit {
 
 
 
+    /** Generates a simple starfield */
     private AddRandomStars() {
         for (let index = 0; index < 300; index++) {
             const geometry = new THREE.SphereGeometry(0.025, 3, 3);
@@ -160,9 +203,5 @@ export class AboutSceneComponent implements AfterViewInit {
 
             this.SCENE.add(mesh);
         }
-    }
-
-
-    private AnimationLoop() {
     }
 }

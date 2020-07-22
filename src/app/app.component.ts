@@ -64,7 +64,7 @@ export class AppComponent implements AfterContentInit {
     private setThemeColors(url: string) {
         if (url === "/resume") {
             this.DOC.documentElement.style.setProperty('--color-primary', '#f5f5f4');
-            this.DOC.documentElement.style.setProperty('--color-toolbar', '#813f18');
+            this.DOC.documentElement.style.setProperty('--color-toolbar', '#736752');
             this.cursorColor = "#000";
         } else {
             this.DOC.documentElement.style.setProperty('--color-primary', '#000');

@@ -34,12 +34,24 @@ div.about-cylinder {
         @include flex(center, column);
 
         h1 {
-            @include fluid-value(48px, 144px, 300px, 1400px, font-size);
-            @include fluid-value(-1.6px, -4px, 400px, 1400px, letter-spacing);
-            // font-weight: 900;
-            word-spacing: 0.5rem;
-            color: #f7f7f7;
+        //     @include fluid-value(48px, 144px, 300px, 1400px, font-size);
+        //     @include fluid-value(-1.6px, -4px, 400px, 1400px, letter-spacing);
+        //     // font-weight: 900;
+        //     word-spacing: 0.5rem;
+        //     color: #f7f7f7;
             transform: translateY(-150px);
+
+            color: var(--color-toolbar);
+            letter-spacing: -4.5px;
+            overflow: hidden;
+            @include fluid-value(64px, 112px, 400px, 1920px, font-size); // fluid font size
+            @media screen and (max-width: 950px) { line-height: 92px; }
+            
+            @media screen and (max-width: 624px) {
+                line-height: 64px;
+                letter-spacing: -1.5px;
+                @include fluid-value(36px, 56px, 300px, 624px, font-size); // fluid font size
+            }
         }
     }
 

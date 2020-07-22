@@ -32,9 +32,7 @@ export class AboutComponent implements OnInit, AfterViewInit, OnDestroy {
     /**
      * Fired when the component is initialized
      */
-    public ngOnInit(): void {
-        this.setSEOTags()
-    }
+    public ngOnInit(): void { this.setSEOTags(); }
 
 
     /**
