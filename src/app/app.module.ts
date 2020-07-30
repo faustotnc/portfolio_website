@@ -19,6 +19,7 @@ import { FilmGrainComponent } from './components/film-grain/film-grain.component
 import { SilkyScrollModule } from "./silky-scroll/silky-scroll.module";
 import { HelperService } from './services/helper.service';
 import { MouseCursorComponent } from './components/mouse-cursor/mouse-cursor.component';
+import { ScreenRestrictionsComponent } from './components/screen-restrictions/screen-restrictions.component';
 import { PageTransitionComponent } from './components/page-transition/page-transition.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
@@ -27,7 +28,7 @@ import { environment } from '../environments/environment';
 @NgModule({
     declarations: [
         AppComponent, ToolbarComponent, FilmGrainComponent, PreloaderComponent,
-        PageTransitionComponent, MouseCursorComponent
+        PageTransitionComponent, MouseCursorComponent, ScreenRestrictionsComponent
     ],
     imports: [
         HammerModule, BrowserModule.withServerTransition({ appId: 'serverApp' }), AppRoutingModule, SilkyScrollModule, ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })

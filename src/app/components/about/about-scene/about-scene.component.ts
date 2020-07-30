@@ -1,5 +1,8 @@
 import { Component, ViewChild, ElementRef, Renderer2, AfterViewInit, OnDestroy, HostListener, PLATFORM_ID, Inject } from '@angular/core';
-import * as THREE from 'three';
+import {
+    Scene, PerspectiveCamera, WebGLRenderer, AmbientLight, HemisphereLight, LineBasicMaterial,
+    BufferGeometry, SphereGeometry, Mesh, MeshBasicMaterial, Line, TorusKnotBufferGeometry, MeshNormalMaterial
+} from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { isPlatformBrowser } from '@angular/common';
 
@@ -13,22 +16,22 @@ export class AboutSceneComponent implements AfterViewInit, OnDestroy {
     @ViewChild("sceneContainer") SCENE_CONTAINER: ElementRef;
 
     // World Preparation
-    private SCENE: THREE.Scene;
-    private CAMERA: THREE.PerspectiveCamera;
-    private RENDERER: THREE.WebGLRenderer;
+    private SCENE: Scene;
+    private CAMERA: PerspectiveCamera;
+    private RENDERER: WebGLRenderer;
     private CONTROLS: OrbitControls;
 
     private WindowAnimation: number;
 
     // World Objects
-    private GraphSpheres: THREE.Mesh[] = [];
+    private GraphSpheres: Mesh[] = [];
 
 
     constructor(private RENDER: Renderer2, @Inject(PLATFORM_ID) private platform: object) {
         if (isPlatformBrowser(platform)) {
-            this.SCENE = new THREE.Scene();
-            this.RENDERER = new THREE.WebGLRenderer();
-            this.CAMERA = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            this.SCENE = new Scene();
+            this.RENDERER = new WebGLRenderer();
+            this.CAMERA = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
             this.CONTROLS = new OrbitControls(this.CAMERA, this.RENDERER.domElement);
         }
     }
@@ -50,19 +53,20 @@ export class AboutSceneComponent implements AfterViewInit, OnDestroy {
             this.CAMERA.position.set(0, 0, 12);
 
             // Adds lights to the scene
-            const AmbientLight = new THREE.AmbientLight(0x404040); // Soft white light
-            this.SCENE.add(AmbientLight);
-            var HemisphericLight = new THREE.HemisphereLight(0xAAAA99, 0x080820, 1); // Light at the top, dark at the bottom
+            const ambient_light = new AmbientLight(0x404040); // Soft white light
+            this.SCENE.add(ambient_light);
+            var HemisphericLight = new HemisphereLight(0xAAAA99, 0x080820, 1); // Light at the top, dark at the bottom
             this.SCENE.add(HemisphericLight);
 
 
             // Axes helper
-            // var axesHelper = new THREE.AxesHelper(20);
+            // var axesHelper = new AxesHelper(20);
             // this.SCENE.add(axesHelper);
 
 
             // Initializes the scene elements
             this.AddRandomStars();
+            // this.addTorusKnot();
             this.Add3dGraph();
             this.Add3DGraphVertices();
 
@@ -138,10 +142,10 @@ export class AboutSceneComponent implements AfterViewInit, OnDestroy {
 
             // Draws a line between the current sphere and its 3 closest neighbors.
             sortedGraph.slice(1, 4).forEach(neighbor => {
-                var material = new THREE.LineBasicMaterial({ color: 0xffffff });
+                var material = new LineBasicMaterial({ color: 0xffffff });
                 var points = [sPos, neighbor.position];
-                var geometry = new THREE.BufferGeometry().setFromPoints(points);
-                var line = new THREE.Line(geometry, material);
+                var geometry = new BufferGeometry().setFromPoints(points);
+                var line = new Line(geometry, material);
                 this.SCENE.add(line);
             });
         }
@@ -155,10 +159,10 @@ export class AboutSceneComponent implements AfterViewInit, OnDestroy {
             const colors = [0xE0AB0B, 0xE7545B, 0x7D0F05, 0x305A48, 0x507BDB, 0xC99369];
             const color = colors[Math.floor(Math.random() * 5)];
 
-            const geometry = new THREE.SphereGeometry(0.25, 6, 6);
-            const material = new THREE.MeshBasicMaterial({ color: color, vertexColors: true });
+            const geometry = new SphereGeometry(0.25, 6, 6);
+            const material = new MeshBasicMaterial({ color: color, vertexColors: true });
 
-            const mesh = new THREE.Mesh(geometry, material);
+            const mesh = new Mesh(geometry, material);
 
             // Prevents the spheres to be positioned less than
             // a unit distance from any other sphere.
@@ -189,13 +193,22 @@ export class AboutSceneComponent implements AfterViewInit, OnDestroy {
 
 
 
+    private addTorusKnot() {
+        var geometry = new TorusKnotBufferGeometry(2.5, 1, 83, 8, 1, 3);
+        var material = new MeshNormalMaterial({ wireframe: true });
+        var torus = new Mesh(geometry, material);
+        this.SCENE.add(torus);
+    }
+
+
+
     /** Generates a simple starfield */
     private AddRandomStars() {
         for (let index = 0; index < 300; index++) {
-            const geometry = new THREE.SphereGeometry(0.025, 3, 3);
-            const material = new THREE.MeshBasicMaterial({ vertexColors: true });
+            const geometry = new SphereGeometry(0.025, 3, 3);
+            const material = new MeshBasicMaterial({ vertexColors: true });
 
-            const mesh = new THREE.Mesh(geometry, material);
+            const mesh = new Mesh(geometry, material);
 
             // Positions the current cube
             let position = this.ComputeRandomPosition(20, -20);

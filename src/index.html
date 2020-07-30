@@ -47,7 +47,12 @@
         <style>
             * {
                 margin: 0;
-                padding: 0
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            #loading-cover {
+                display: none !important;
             }
 
             noscript {
@@ -59,13 +64,15 @@
                 margin: 0;
                 padding: 0;
                 text-align: center;
-                grid-template-rows: 1fr .1fr .1fr 1fr
+                grid-template-rows: 1fr .1fr .1fr 1fr;
+                padding: 0 15px;
             }
 
             noscript h1 {
                 grid-row-start: 2;
                 margin-bottom: 24px;
-                font-family: williams-caslon-text, serif
+                font-size: 28px;
+                font-family: pt-sans-pro, sans-serif;
             }
 
             noscript p {

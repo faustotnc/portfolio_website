@@ -3,13 +3,15 @@
     <div class="toolbar-container" #toolbar
         [ngClass]="{ 'isScrolling': (currentScrollPos > 1), 'mobileMenuOpen': isMenuActive} ">
         <div class="wrapper">
-            <h1 class="title" data-no-ellipse-cursor><a routerLink="/">fausto german</a></h1>
+            <h1 class="title" data-no-ellipse-cursor>
+                <a routerLink="/" data-no-ellipse-cursor #homeLink>fausto german</a>
+            </h1>
 
             <div class="right">
                 <nav data-no-ellipse-cursor>
-                    <a routerLink="/about">ABOUT</a>
-                    <a routerLink="/resume">RESUME</a>
-                    <a routerLink="/contact">CONTACT</a>
+                    <a routerLink="/about" data-no-ellipse-cursor>ABOUT</a>
+                    <a routerLink="/resume" data-no-ellipse-cursor>RESUME</a>
+                    <a routerLink="/contact" data-no-ellipse-cursor>CONTACT</a>
                 </nav>
 
                 <button class="menu-toggle" (click)="toggleMenu()" aria-label="Toggle Menu" role="button">

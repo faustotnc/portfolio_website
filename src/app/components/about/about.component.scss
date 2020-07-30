@@ -44,7 +44,7 @@ div.about-cylinder {
             color: var(--color-toolbar);
             letter-spacing: -4.5px;
             overflow: hidden;
-            @include fluid-value(64px, 112px, 400px, 1920px, font-size); // fluid font size
+            @include fluid-value(72px, 144px, 400px, 1920px, font-size); // fluid font size
             @media screen and (max-width: 950px) { line-height: 92px; }
             
             @media screen and (max-width: 624px) {

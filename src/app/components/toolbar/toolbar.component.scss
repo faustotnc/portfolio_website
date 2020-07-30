@@ -20,6 +20,10 @@ header.toolbar-cylinder {
             background: var(--color-primary);
         }
 
+        @media screen and (max-width: 650px) {
+            transform: translateY(32px);
+        }
+
         .wrapper {
             width: 90%;
             max-width: 1400px;
@@ -29,8 +33,11 @@ header.toolbar-cylinder {
             h1 {
                 font-size: 24px;
                 pointer-events: all;
+                color: #f7f7f7;
                 color: var(--color-toolbar) !important;
                 a {
+                    display: block;
+                    color: #f7f7f7;
                     color: var(--color-toolbar) !important;
                     text-decoration: none;
                     transition: .3s easing('standard') color; // Needed for hover effect

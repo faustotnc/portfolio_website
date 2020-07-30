@@ -34,6 +34,10 @@ div.resume-cylinder {
                 margin-top: 96px;
             }
 
+            @media screen and (max-width: 310px) {
+                grid-template-columns: 100%;
+            }
+
             section {
                 // /* Fallback dashed border
                 //     - the 4px width here is overwritten with the border-image-width (if set)

@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterContentInit, OnDestroy, ViewChild, ElementRef, Renderer2, Inject, PLATFORM_ID, NgZone } from '@angular/core';
+import { Component, OnInit, AfterContentInit, OnDestroy, ViewChild, ElementRef, Inject, PLATFORM_ID, NgZone } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { SilkyScrollService } from '../../silky-scroll/service/silky-scroll.service';
 import { Subscription } from 'rxjs';
@@ -30,7 +30,6 @@ export class ContactComponent implements OnInit, AfterContentInit, OnDestroy {
 
 
     constructor(
-        private RENDER: Renderer2,
         private TITLE: Title,
         private META: Meta,
         private SILKY_SCROLL: SilkyScrollService,

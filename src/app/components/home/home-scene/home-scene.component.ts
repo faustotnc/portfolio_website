@@ -1,5 +1,8 @@
 import { Component, ViewChild, ElementRef, Renderer2, AfterViewInit, OnDestroy, HostListener, PLATFORM_ID, Inject } from '@angular/core';
-import * as THREE from 'three';
+import {
+    Scene, PerspectiveCamera, WebGLRenderer, AmbientLight, HemisphereLight,
+    SphereGeometry, Mesh, MeshBasicMaterial, Group, BoxGeometry
+} from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { Load3dObjectsService } from '../../../services/load-3d-objects.service';
 import { isPlatformBrowser } from '@angular/common';
@@ -13,15 +16,15 @@ import { isPlatformBrowser } from '@angular/common';
 })
 export class HomeSceneComponent implements AfterViewInit, OnDestroy {
     @ViewChild("sceneContainer") SCENE_CONTAINER: ElementRef;
-    private SCENE: THREE.Scene;
-    private CAMERA: THREE.PerspectiveCamera;
-    private RENDERER: THREE.WebGLRenderer;
+    private SCENE: Scene;
+    private CAMERA: PerspectiveCamera;
+    private RENDERER: WebGLRenderer;
     private CONTROLS: OrbitControls;
 
     // Scene Elements
-    private Cubes: [THREE.Mesh, number][] = [];
-    private Computers: [THREE.Group, number][] = [];
-    private Prisms: [THREE.Group, number][] = [];
+    private Cubes: [Mesh, number][] = [];
+    private Computers: [Group, number][] = [];
+    private Prisms: [Group, number][] = [];
 
     private WindowAnimation: number;
 
@@ -32,9 +35,9 @@ export class HomeSceneComponent implements AfterViewInit, OnDestroy {
         @Inject(PLATFORM_ID) private platform: object
     ) {
         if (isPlatformBrowser(platform)) {
-            this.SCENE = new THREE.Scene();
-            this.RENDERER = new THREE.WebGLRenderer();
-            this.CAMERA = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            this.SCENE = new Scene();
+            this.RENDERER = new WebGLRenderer();
+            this.CAMERA = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
             this.CONTROLS = new OrbitControls(this.CAMERA, this.RENDERER.domElement);
         }
     }
@@ -56,14 +59,14 @@ export class HomeSceneComponent implements AfterViewInit, OnDestroy {
             this.CAMERA.position.set(0, 0, 5);
 
             // Adds lights to the scene
-            const AmbientLight = new THREE.AmbientLight(0x404040); // Soft white light
-            this.SCENE.add(AmbientLight);
-            var HemisphericLight = new THREE.HemisphereLight(0xAAAA99, 0x080820, 1); // Light at the top, dark at the bottom
+            const ambient_light = new AmbientLight(0x404040); // Soft white light
+            this.SCENE.add(ambient_light);
+            var HemisphericLight = new HemisphereLight(0xAAAA99, 0x080820, 1); // Light at the top, dark at the bottom
             this.SCENE.add(HemisphericLight);
 
 
             // Axes helper
-            // var axesHelper = new THREE.AxesHelper(20);
+            // var axesHelper = new AxesHelper(20);
             // this.SCENE.add(axesHelper);
 
 
@@ -126,14 +129,14 @@ export class HomeSceneComponent implements AfterViewInit, OnDestroy {
     /** Adds floating multicolor prisms to the 3D world. */
     private addPrisms() {
         for (let index = 0; index < 20; index++) {
-            const group = new THREE.Group();
+            const group = new Group();
             group.scale.set(0.5, 0.5, 0.5)
             const colors = [0xE0AB0B, 0xE7545B, 0x7D0F05, 0x305A48, 0x507BDB, 0xC99369]
 
             for (let index = 0; index < 6; index++) {
-                const geometry = new THREE.BoxGeometry();
-                const material = new THREE.MeshBasicMaterial({ color: colors[index], vertexColors: true });
-                const mesh = new THREE.Mesh(geometry, material);
+                const geometry = new BoxGeometry();
+                const material = new MeshBasicMaterial({ color: colors[index], vertexColors: true });
+                const mesh = new Mesh(geometry, material);
                 mesh.position.z = index - 2.5;
 
                 group.add(mesh);
@@ -181,11 +184,11 @@ export class HomeSceneComponent implements AfterViewInit, OnDestroy {
 
     /** Adds floating multi-colored cubes to the 3D world. */
     private AddRandomCubes() {
-        const geometry = new THREE.BoxGeometry();
-        const material = new THREE.MeshBasicMaterial({ vertexColors: true });
+        const geometry = new BoxGeometry();
+        const material = new MeshBasicMaterial({ vertexColors: true });
 
         for (let index = 0; index < 20; index++) {
-            const mesh = new THREE.Mesh(geometry, material);
+            const mesh = new Mesh(geometry, material);
 
             // Yellow Face
             mesh.geometry.faces[0].color.setHex(0xE0AB0B);
@@ -225,10 +228,10 @@ export class HomeSceneComponent implements AfterViewInit, OnDestroy {
     /** Generates a simple starfield */
     public AddRandomStars() {
         for (let index = 0; index < 300; index++) {
-            const geometry = new THREE.SphereGeometry(0.025, 3, 3);
-            const material = new THREE.MeshBasicMaterial({ vertexColors: true });
+            const geometry = new SphereGeometry(0.025, 3, 3);
+            const material = new MeshBasicMaterial({ vertexColors: true });
 
-            const mesh = new THREE.Mesh(geometry, material);
+            const mesh = new Mesh(geometry, material);
 
             // Positions the current cube
             let pos = this.ComputeRandomPosition(20, -20);

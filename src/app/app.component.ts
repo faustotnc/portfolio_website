@@ -1,5 +1,5 @@
-import { Component, OnInit, HostListener, Inject, ElementRef, PLATFORM_ID, ViewChild, AfterContentInit } from '@angular/core';
-import { Router, Event, NavigationStart, NavigationEnd, NavigationError } from '@angular/router';
+import { Component, HostListener, Inject, ElementRef, PLATFORM_ID, ViewChild, AfterContentInit } from '@angular/core';
+import { Router, Event, NavigationStart, NavigationEnd } from '@angular/router';
 import { PageTransitionService } from "./components/page-transition/page-transition.service";
 import { Subscription } from 'rxjs';
 import { DOCUMENT, isPlatformBrowser } from "@angular/common";
@@ -32,6 +32,7 @@ export class AppComponent implements AfterContentInit {
         // This needs to be executed as soon as the component loads,
         // that is why it is being executed from the constructor
         if (isPlatformBrowser(this.platform)) {
+            this.PrintConsoleLicense();
             this.setTrueViewportHeight();
             this.isIE = (this.HELPER.isIEorEdge() && this.HELPER.isIEorEdge() <= 11);
         }
@@ -73,10 +74,11 @@ export class AppComponent implements AfterContentInit {
         }
     }
 
+
     /**
-       * Makes elements with heights of 100vh have the
-       * actual height of the viewport.
-       */
+     * Makes elements with heights of 100vh have the
+     * actual height of the viewport.
+     */
     @HostListener("window:resize") public setTrueViewportHeight() {
         if (isPlatformBrowser(this.platform)) {
             this.SCROLLER.requestScrollerUpdate();
@@ -96,5 +98,24 @@ export class AppComponent implements AfterContentInit {
             // viewport, it still sets the previous value.
             setTimeout(() => calculateVH(), 350);
         }
+    }
+
+
+    /**
+     * prints the copyright notice and licence
+     * to the console with some cool styles.
+     */
+    private PrintConsoleLicense() {
+        const styles = [
+            'background: #010101',
+            'color: #b8bdb5',
+            'display: block',
+            'text-align: center',
+            'padding: 8px 12px',
+            'margin: 12px 0',
+            'font-size: 22px'
+        ].join(';');
+
+        console.log('%cDesign & Code by Fausto German. \xA9 Fausto German - 2020', styles);
     }
 }

@@ -1,4 +1,4 @@
-import { Component, AfterContentInit, OnInit, ViewChild, ElementRef, Renderer2, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, AfterContentInit, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { SilkyScrollService } from '../../silky-scroll/service/silky-scroll.service';
 import { Title, Meta } from '@angular/platform-browser';
 import { isPlatformBrowser } from '@angular/common';
@@ -13,7 +13,6 @@ export class ResumeComponent implements OnInit, AfterContentInit {
 
     constructor(
         private readonly SILKY_SCROLL: SilkyScrollService,
-        private readonly RENDER: Renderer2,
         private TITLE: Title,
         private META: Meta,
         @Inject(PLATFORM_ID) private platform: object

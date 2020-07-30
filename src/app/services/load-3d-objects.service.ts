@@ -17,15 +17,20 @@ export class Load3dObjectsService {
      * @param resURL The resource's url
      * @param callback The Callback to execute once the resource has loaded
      */
-    public load(resURL: string, callback: (obj: THREE.Group) => void): void {
+    public load(
+        resURL: string,
+        callback: (obj: THREE.Group) => void,
+        progressCallback?: (event: ProgressEvent<EventTarget>) => void
+    ): void {
+
         if (this.RESOURCES[resURL]) {
-            callback(this.RESOURCES[resURL])
+            callback(this.RESOURCES[resURL]);
         } else {
             this.LOADER.load(resURL, obj => {
                 this.RESOURCES[resURL] = obj;
-
                 callback(obj);
-            });
+            }, progressCallback);
         }
+
     }
 }

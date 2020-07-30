@@ -4,8 +4,8 @@ import {
 } from '@angular/core';
 
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { Router, Event, NavigationEnd, NavigationError } from '@angular/router';
-import { SilkyScrollService, SilkyScrollData } from '../service/silky-scroll.service';
+import { Router, Event, NavigationEnd } from '@angular/router';
+import { SilkyScrollService } from '../service/silky-scroll.service';
 import { ScrollerCore } from '../scroller-core';
 
 

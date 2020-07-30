@@ -97,7 +97,7 @@ export class MouseCursorComponent implements OnInit {
      * @param event The mouse event passed by the host listener
      */
     @HostListener('window:mousemove', ['$event'])
-    public CursorMove(event: any) {
+    public CursorMove(event: MouseEvent) {
         // Mouse coordinates
         this.EVClientX = event.clientX;
         this.EVClientY = event.clientY;
@@ -106,16 +106,13 @@ export class MouseCursorComponent implements OnInit {
         // If the cursor is hovering an element with the attribute of 'no-ellipse-cursor',
         // the maximum size will be set to 0 in order to hide the cursor.
         let isNoShow = false;
-        if (event.path.length > 0) {
-            // Loops through the list of elements the cursor
-            // is hovering on.
-            event.path.forEach((element: HTMLElement) => {
-                // If any of those elements have a the attribute of 'no-ellipse-cursor'...
-                if (element.tagName && element.getAttributeNames().includes('data-no-ellipse-cursor')) {
-                    // ...hides the cursor
-                    isNoShow = true;
-                }
-            });
+
+        if (event && event.target) {
+            let element = (event.target as HTMLElement);
+
+            if (element.tagName && element.getAttributeNames().includes('data-no-ellipse-cursor')) {
+                isNoShow = true;
+            }
         }
 
         // If the cursor is hovering an element with the attribute

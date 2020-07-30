@@ -30,6 +30,10 @@ main.contact-page-cylinder {
             height: calc(var(--vh, 1vh) * 40);
         }
 
+        @media screen and (max-width: 340px) {
+            margin-top: 48px;
+        }
+
         div {
             grid-row-start: 2;
 
@@ -43,7 +47,7 @@ main.contact-page-cylinder {
                 @media screen and (max-width: 624px) {
                     line-height: 64px;
                     letter-spacing: -1.5px;
-                    @include fluid-value(36px, 56px, 300px, 624px, font-size); // fluid font size
+                    @include fluid-value(32px, 56px, 300px, 624px, font-size); // fluid font size
                 }
     
                 span {
@@ -59,8 +63,12 @@ main.contact-page-cylinder {
         margin-top: 96px;
         text-align: center;
 
+        // @media screen and (max-width: 650px) {
+        //     margin-top: 64px;
+        // }
+
         @media screen and (max-width: 650px) {
-            margin-top: 64px;
+            margin-top: 32px;
         }
 
         a {
@@ -93,9 +101,9 @@ main.contact-page-cylinder {
 
 
             div.arrow {
-                width: 24px;
-                height: 24px;
-                margin-left: 24px;
+                @include fluid-value(16px, 24px, 270px, 1920px, width);
+                @include fluid-value(16px, 24px, 270px, 1920px, height);
+                @include fluid-value(16px, 24px, 270px, 1920px, margin-left);
                 display: inline-block;
                 position: relative;
                 bottom: -2px;
@@ -103,7 +111,7 @@ main.contact-page-cylinder {
                 transition: 1s cubic-bezier(0.77, 0, 0.175, 1) transform;
 
                 span {
-                    width: 24px;
+                    @include fluid-value(16px, 24px, 270px, 1920px, width);
                     height: 2px;
                     background: #b8bdb5;
                     display: inline-block;
@@ -122,7 +130,7 @@ main.contact-page-cylinder {
                         right: unset;
                         bottom: 0;
                         left: 2px;
-                        width: 32px;
+                        @include fluid-value(21px, 29px, 270px, 1920px, width);
                     }
                 }
             }
@@ -163,6 +171,7 @@ main.contact-page-cylinder {
                     padding: 0 8px;
                     margin: 0 8px;
                     svg {
+                        pointer-events: none;
                         width: 20px;
                         // fill: #1e1f1d;
                         fill: #b8bdb5;
