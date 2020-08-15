@@ -12,7 +12,13 @@ import { ScrollerCore } from '../scroller-core';
 
 @Component({
     selector: 'silky-scroll',
-    templateUrl: './silky-scroll.component.html',
+    template: `
+        <div class="page-superwrapper">
+            <div class="scrolling-view" #scroll>
+                <ng-content></ng-content>
+            </div>
+        </div>
+    `,
     styleUrls: ['./silky-scroll.component.scss']
 })
 export class SilkyScrollComponent implements AfterViewInit {

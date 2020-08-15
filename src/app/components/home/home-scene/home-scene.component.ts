@@ -11,8 +11,7 @@ import { isPlatformBrowser } from '@angular/common';
 
 @Component({
     selector: 'fausto-home-scene',
-    templateUrl: './home-scene.component.html',
-    styleUrls: ['./home-scene.component.scss']
+    template: '<div class="scene-container" #sceneContainer></div>'
 })
 export class HomeSceneComponent implements AfterViewInit, OnDestroy {
     @ViewChild("sceneContainer") SCENE_CONTAINER: ElementRef;
@@ -126,9 +125,21 @@ export class HomeSceneComponent implements AfterViewInit, OnDestroy {
 
 
 
+    /**
+     * Calculates the distance from the tip of the vector to the origin (length of the vector).
+     * @param vector The vector whose distance to the origin will be calculated.
+     */
+    private centerDist(vector: number[]) {
+        let sumOfSquares = 0;
+        vector.forEach(entry => sumOfSquares += Math.pow(entry, 2));
+        return Math.sqrt(sumOfSquares);
+    }
+
+
+
     /** Adds floating multicolor prisms to the 3D world. */
     private addPrisms() {
-        for (let index = 0; index < 20; index++) {
+        for (let index = 0; index < 30; index++) {
             const group = new Group();
             group.scale.set(0.5, 0.5, 0.5)
             const colors = [0xE0AB0B, 0xE7545B, 0x7D0F05, 0x305A48, 0x507BDB, 0xC99369]
@@ -147,8 +158,10 @@ export class HomeSceneComponent implements AfterViewInit, OnDestroy {
             let rotation = (Math.random() * 3) - 1;
             this.Prisms.push([group, rotation]);
 
-            // Positions the current computer
-            let pos = this.ComputeRandomPosition(20, -20);
+            let pos: number[];
+            // Prevents the prisms from being too close to the camera
+            do { pos = this.ComputeRandomPosition(15, -15) } while (this.centerDist(pos) <= 7);
+            // Positions the current prism
             this.Prisms[index][0].position.set(pos[0], pos[1], pos[2]);
 
             // Adds the current prism to the scene.
@@ -170,8 +183,10 @@ export class HomeSceneComponent implements AfterViewInit, OnDestroy {
                 let rotation = (Math.random() * 3) - 1;
                 this.Computers.push([obj, rotation]);
 
+                let pos: number[];
+                // Prevents the computer from being too close to the camera
+                do { pos = this.ComputeRandomPosition(15, -15) } while (this.centerDist(pos) <= 6);
                 // Positions the current computer
-                let pos = this.ComputeRandomPosition(20, -20);
                 this.Computers[index][0].position.set(pos[0], pos[1], pos[2]);
 
                 // Adds the current cube to the scene.
@@ -213,8 +228,10 @@ export class HomeSceneComponent implements AfterViewInit, OnDestroy {
             let rotation = (Math.random() * 5) - 2;
             this.Cubes.push([mesh, rotation]);
 
+            let pos: number[];
+            // Prevents the cube from being too close to the camera
+            do { pos = this.ComputeRandomPosition(15, -15) } while (this.centerDist(pos) <= 6);
             // Positions the current cube
-            let pos = this.ComputeRandomPosition(20, -20);
             this.Cubes[index][0].position.set(pos[0], pos[1], pos[2]);
 
             // Adds the current cube to the scene.
@@ -250,13 +267,13 @@ export class HomeSceneComponent implements AfterViewInit, OnDestroy {
             cube[0].rotation.y += cube[1] / 100;
         })
 
-        // Rotates the prisms.
+        // Rotates the computers.
         this.Computers.forEach(computer => {
             computer[0].rotation.x += computer[1] / 100;
             computer[0].rotation.y += computer[1] / 100;
         });
 
-        // Rotates the computers.
+        // Rotates the prisms.
         this.Prisms.forEach(prism => {
             prism[0].rotation.x += prism[1] / 100;
             prism[0].rotation.y += prism[1] / 100;

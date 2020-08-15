@@ -9,7 +9,7 @@ import { isPlatformBrowser } from '@angular/common';
 
 @Component({
     selector: 'fausto-about-scene',
-    templateUrl: './about-scene.component.html',
+    template: '<div class="scene-container" #sceneContainer></div>',
     styleUrls: ['./about-scene.component.scss']
 })
 export class AboutSceneComponent implements AfterViewInit, OnDestroy {
