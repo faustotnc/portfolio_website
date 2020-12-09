@@ -166,23 +166,24 @@ export class AboutSceneComponent implements AfterViewInit, OnDestroy {
 
             // Prevents the spheres to be positioned less than
             // a unit distance from any other sphere.
-            let pos;
-            while (true) {
-                let reStart = false;
+            let pos: number[];
+            chooseNewPos: while (true) {
                 pos = this.ComputeRandomPosition(3.5, -3.5);
 
+                // Compare the current position to the position of all the other spheres
                 for (let index = 0; index < this.GraphSpheres.length; index++) {
                     const sphere = this.GraphSpheres[index];
                     const sPos = sphere.position;
                     const dist = Math.sqrt(Math.pow(pos[0] - sPos.x, 2) + Math.pow(pos[1] - sPos.y, 2) + Math.pow(pos[2] - sPos.z, 2))
 
-                    if (dist <= 1) {
-                        reStart = true;
-                        break;
-                    }
+                    // Chose another position for the sphere if the
+                    // current position is too close to another sphere.
+                    if (dist <= 1.5) continue chooseNewPos;
                 }
 
-                if (reStart) continue; else break;
+                // Break the loop once we have found a position
+                // that is not too close to other spheres.
+                break;
             }
 
             mesh.position.set(pos[0], pos[1], pos[2]);

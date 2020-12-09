@@ -81,8 +81,8 @@ export class ContactComponent implements OnInit, AfterContentInit {
 
         // create new Date object for different city
         // using supplied offset
-        const offset = 4; // day-light savings time
-        // const offset = 5; // Non daylight savings time
+        // const offset = 4; // day-light savings time
+        const offset = 5; // Non daylight savings time
         const nd = new Date(utc - (3600000 * offset));
 
         // return time as a string

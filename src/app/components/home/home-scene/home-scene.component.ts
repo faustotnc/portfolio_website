@@ -153,7 +153,6 @@ export class HomeSceneComponent implements AfterViewInit, OnDestroy {
                 group.add(mesh);
             }
 
-
             // Adds the cube and it's assigned rotation to the Cubes array of tuples
             let rotation = (Math.random() * 3) - 1;
             this.Prisms.push([group, rotation]);
