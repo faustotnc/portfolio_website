@@ -67,8 +67,8 @@ export class AboutSceneComponent implements AfterViewInit, OnDestroy {
             // Initializes the scene elements
             this.AddRandomStars();
             // this.addTorusKnot();
-            this.Add3dGraph();
-            this.Add3DGraphVertices();
+            // this.Add3dGraph();
+            // this.Add3DGraphVertices();
 
 
             // Renders the scene

@@ -46,7 +46,7 @@ export class AboutComponent implements OnInit, AfterViewInit, OnDestroy {
 
             this.silkyScrollObserver = this.SILKY_SCROLL.scrollListener.subscribe(m => {
                 this.RENDER.setStyle(this.HeroImage.nativeElement, 'transform', `translateY(${m.scrollY / 5.75}px)`);
-                this.RENDER.setStyle(this.AboutScene.nativeElement, 'transform', `translateY(${m.scrollY / 5}px)`);
+                this.RENDER.setStyle(this.AboutScene.nativeElement, 'transform', `translateY(${m.scrollY / 1.1}px)`);
             });
         }
 
