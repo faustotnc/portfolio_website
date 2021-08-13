@@ -16,37 +16,14 @@ html { font-family: 'Inter', sans-serif; }
     html { font-family: 'Inter var', sans-serif; }
 }
 
-// @font-face {
-//     font-family: messapia-sans;
-//     font-weight: bold;
-//     src: url("/assets/mess/Messapia-Bold.otf") ;
-// }
-// @font-face {
-//     font-family: messapia-serif;
-//     font-weight: bold;
-//     src: url("/assets/mess/Messapia-Regular.otf") ;
-// }
-
-
-
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     outline: none;
-    cursor: none;
-
-    // &.alt-font {
-    //     font-family: 'messapia-sans', sans-serif;
-    // }
-    // &.alt-font-serif {
-    //     font-family: 'messapia-serif', serif;
-    // }
 }
 
 body, html {
-    // background: #f7f3f0;
     background: var(--color-primary);
     -webkit-font-smoothing: antialiased;
-    cursor: none;
 }

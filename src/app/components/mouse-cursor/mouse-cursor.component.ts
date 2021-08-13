@@ -129,7 +129,7 @@ export class MouseCursorComponent implements OnInit {
      * @param event The mouse event passed by the host listener
      */
     @HostListener('window:mouseout', ['$event']) public CursorLeftWindow(e: MouseEvent) {
-        // ONly perform the changes if the cursor has left the HTML tag
+        // Only perform the changes if the cursor has left the HTML tag
         const from = e.relatedTarget as HTMLElement;
 
         if (!from || from.nodeName === 'HTML') {
@@ -140,15 +140,15 @@ export class MouseCursorComponent implements OnInit {
     }
 
 
-    /**
-     * Draws a filled circle that serves as a cursor pointer for the user.
-     */
-    private drawMousePointer() {
-        this.CONTEXT.beginPath();
-        this.CONTEXT.ellipse(this.EVClientX, this.EVClientY, this.MAX_POINTER_SIZE, this.MAX_POINTER_SIZE, 0, 0, 2 * Math.PI);
-        this.CONTEXT.fillStyle = this.CURSOR_COLOR;
-        this.CONTEXT.fill();
-    }
+    // /**
+    //  * Draws a filled circle that serves as a cursor pointer for the user.
+    //  */
+    // private drawMousePointer() {
+    //     this.CONTEXT.beginPath();
+    //     this.CONTEXT.ellipse(this.EVClientX, this.EVClientY, this.MAX_POINTER_SIZE, this.MAX_POINTER_SIZE, 0, 0, 2 * Math.PI);
+    //     this.CONTEXT.fillStyle = this.CURSOR_COLOR;
+    //     this.CONTEXT.fill();
+    // }
 
 
 
@@ -180,7 +180,7 @@ export class MouseCursorComponent implements OnInit {
         this.CONTEXT.clearRect(0, 0, this.CANVAS.width, this.CANVAS.height);
 
         // Draws the cursor pointer
-        this.drawMousePointer();
+        // this.drawMousePointer();
 
         // Makes the cursor ring to follow the cursor's position
         // at a fraction (determined by this.DRAG_FACTOR) of the
