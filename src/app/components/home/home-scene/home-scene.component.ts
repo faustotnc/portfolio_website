@@ -1,7 +1,7 @@
 import { Component, ViewChild, ElementRef, Renderer2, AfterViewInit, OnDestroy, HostListener, PLATFORM_ID, Inject } from '@angular/core';
 import {
     Scene, PerspectiveCamera, WebGLRenderer, AmbientLight, HemisphereLight,
-    SphereGeometry, Mesh, MeshBasicMaterial, Group, BoxGeometry
+    SphereGeometry, Mesh, MeshBasicMaterial, Group, BoxGeometry, Object3D
 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { Load3dObjectsService } from '../../../services/load-3d-objects.service';
@@ -22,7 +22,7 @@ export class HomeSceneComponent implements AfterViewInit, OnDestroy {
 
     // Scene Elements
     private Cubes: [Mesh, number][] = [];
-    private Computers: [Group, number][] = [];
+    private Computers: [Object3D, number][] = [];
     private Prisms: [Group, number][] = [];
 
     private WindowAnimation: number;
@@ -96,7 +96,8 @@ export class HomeSceneComponent implements AfterViewInit, OnDestroy {
         if (isPlatformBrowser(this.platform)) {
             window.cancelAnimationFrame(this.WindowAnimation);
             // Dispose of the scene
-            this.SCENE.dispose();
+            // this.SCENE.dispose();
+            this.SCENE.clear();
         }
     }
 
@@ -205,23 +206,23 @@ export class HomeSceneComponent implements AfterViewInit, OnDestroy {
             const mesh = new Mesh(geometry, material);
 
             // Yellow Face
-            mesh.geometry.faces[0].color.setHex(0xE0AB0B);
-            mesh.geometry.faces[1].color.setHex(0xE0AB0B);
-            // Pink Face
-            mesh.geometry.faces[2].color.setHex(0xE7545B);
-            mesh.geometry.faces[3].color.setHex(0xE7545B);
-            // Red Face
-            mesh.geometry.faces[4].color.setHex(0x7D0F05);
-            mesh.geometry.faces[5].color.setHex(0x7D0F05);
-            // Green Face
-            mesh.geometry.faces[6].color.setHex(0x305A48);
-            mesh.geometry.faces[7].color.setHex(0x305A48);
-            // Blue Face
-            mesh.geometry.faces[8].color.setHex(0x507BDB);
-            mesh.geometry.faces[9].color.setHex(0x507BDB);
-            // Beige Face
-            mesh.geometry.faces[10].color.setHex(0xC99369);
-            mesh.geometry.faces[11].color.setHex(0xC99369);
+            // mesh.geometry.faces[0].color.setHex(0xE0AB0B);
+            // mesh.geometry.faces[1].color.setHex(0xE0AB0B);
+            // // Pink Face
+            // mesh.geometry.faces[2].color.setHex(0xE7545B);
+            // mesh.geometry.faces[3].color.setHex(0xE7545B);
+            // // Red Face
+            // mesh.geometry.faces[4].color.setHex(0x7D0F05);
+            // mesh.geometry.faces[5].color.setHex(0x7D0F05);
+            // // Green Face
+            // mesh.geometry.faces[6].color.setHex(0x305A48);
+            // mesh.geometry.faces[7].color.setHex(0x305A48);
+            // // Blue Face
+            // mesh.geometry.faces[8].color.setHex(0x507BDB);
+            // mesh.geometry.faces[9].color.setHex(0x507BDB);
+            // // Beige Face
+            // mesh.geometry.faces[10].color.setHex(0xC99369);
+            // mesh.geometry.faces[11].color.setHex(0xC99369);
 
             // Adds the cube and its assigned rotation to the Cubes array of tuples
             let rotation = (Math.random() * 5) - 2;

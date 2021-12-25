@@ -90,7 +90,8 @@ export class AboutSceneComponent implements AfterViewInit, OnDestroy {
         if (isPlatformBrowser(this.platform)) {
             window.cancelAnimationFrame(this.WindowAnimation);
             // Dispose of the scene
-            this.SCENE.dispose();
+            // this.SCENE.dispose();
+            this.SCENE.clear();
         }
     }
 
