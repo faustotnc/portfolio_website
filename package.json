@@ -10,7 +10,7 @@
     "e2e": "ng e2e",
     "dev:ssr": "ng run FaustoWeb2020:serve-ssr",
     "serve:ssr": "node dist/FaustoWeb2020/server/main.js",
-    "build:ssr": "ng build --configuration production --extract-css true --named-chunks true --optimization true --aot true --build-optimizer true --common-chunk true && ng run FaustoWeb2020:server:production",
+    "build:ssr": "ng build --configuration production --named-chunks true --optimization true --aot true --build-optimizer true --common-chunk true && ng run FaustoWeb2020:server:production",
     "prerender": "ng run FaustoWeb2020:prerender",
     "deploy:gcp": "npm run build:ssr && gcloud app deploy"
   },
