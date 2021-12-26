@@ -1,8 +1,5 @@
 import { Component, ViewChild, ElementRef, Renderer2, AfterViewInit, OnDestroy, HostListener, PLATFORM_ID, Inject } from '@angular/core';
-import {
-    Scene, PerspectiveCamera, WebGLRenderer, AmbientLight, HemisphereLight,
-    SphereGeometry, Mesh, MeshBasicMaterial, Group, BoxGeometry, Object3D
-} from 'three';
+import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { Load3dObjectsService } from '../../../services/load-3d-objects.service';
 import { isPlatformBrowser } from '@angular/common';
@@ -15,15 +12,15 @@ import { isPlatformBrowser } from '@angular/common';
 })
 export class HomeSceneComponent implements AfterViewInit, OnDestroy {
     @ViewChild("sceneContainer") SCENE_CONTAINER: ElementRef;
-    private SCENE: Scene;
-    private CAMERA: PerspectiveCamera;
-    private RENDERER: WebGLRenderer;
+    private SCENE: THREE.Scene;
+    private CAMERA: THREE.PerspectiveCamera;
+    private RENDERER: THREE.WebGLRenderer;
     private CONTROLS: OrbitControls;
 
     // Scene Elements
-    private Cubes: [Mesh, number][] = [];
-    private Computers: [Object3D, number][] = [];
-    private Prisms: [Group, number][] = [];
+    private Cubes: [THREE.Mesh, number][] = [];
+    private Computers: [THREE.Group, number][] = [];
+    private Prisms: [THREE.Group, number][] = [];
 
     private WindowAnimation: number;
 
@@ -34,9 +31,9 @@ export class HomeSceneComponent implements AfterViewInit, OnDestroy {
         @Inject(PLATFORM_ID) private platform: object
     ) {
         if (isPlatformBrowser(platform)) {
-            this.SCENE = new Scene();
-            this.RENDERER = new WebGLRenderer();
-            this.CAMERA = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            this.SCENE = new THREE.Scene();
+            this.RENDERER = new THREE.WebGLRenderer();
+            this.CAMERA = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
             this.CONTROLS = new OrbitControls(this.CAMERA, this.RENDERER.domElement);
         }
     }
@@ -58,9 +55,9 @@ export class HomeSceneComponent implements AfterViewInit, OnDestroy {
             this.CAMERA.position.set(0, 0, 5);
 
             // Adds lights to the scene
-            const ambient_light = new AmbientLight(0x404040); // Soft white light
+            const ambient_light = new THREE.AmbientLight(0x404040); // Soft white light
             this.SCENE.add(ambient_light);
-            var HemisphericLight = new HemisphereLight(0xAAAA99, 0x080820, 1); // Light at the top, dark at the bottom
+            var HemisphericLight = new THREE.HemisphereLight(0xAAAA99, 0x080820, 1); // Light at the top, dark at the bottom
             this.SCENE.add(HemisphericLight);
 
 
@@ -96,7 +93,6 @@ export class HomeSceneComponent implements AfterViewInit, OnDestroy {
         if (isPlatformBrowser(this.platform)) {
             window.cancelAnimationFrame(this.WindowAnimation);
             // Dispose of the scene
-            // this.SCENE.dispose();
             this.SCENE.clear();
         }
     }
@@ -141,14 +137,14 @@ export class HomeSceneComponent implements AfterViewInit, OnDestroy {
     /** Adds floating multicolor prisms to the 3D world. */
     private addPrisms() {
         for (let index = 0; index < 30; index++) {
-            const group = new Group();
+            const group = new THREE.Group();
             group.scale.set(0.5, 0.5, 0.5)
             const colors = [0xE0AB0B, 0xE7545B, 0x7D0F05, 0x305A48, 0x507BDB, 0xC99369]
 
             for (let index = 0; index < 6; index++) {
-                const geometry = new BoxGeometry();
-                const material = new MeshBasicMaterial({ color: colors[index], vertexColors: true });
-                const mesh = new Mesh(geometry, material);
+                const geometry = new THREE.BoxGeometry();
+                const material = new THREE.MeshBasicMaterial({ color: colors[index] });
+                const mesh = new THREE.Mesh(geometry, material);
                 mesh.position.z = index - 2.5;
 
                 group.add(mesh);
@@ -199,34 +195,12 @@ export class HomeSceneComponent implements AfterViewInit, OnDestroy {
 
     /** Adds floating multi-colored cubes to the 3D world. */
     private AddRandomCubes() {
-        const geometry = new BoxGeometry();
-        const material = new MeshBasicMaterial({ vertexColors: true });
-
         for (let index = 0; index < 20; index++) {
-            const mesh = new Mesh(geometry, material);
-
-            // Yellow Face
-            // mesh.geometry.faces[0].color.setHex(0xE0AB0B);
-            // mesh.geometry.faces[1].color.setHex(0xE0AB0B);
-            // // Pink Face
-            // mesh.geometry.faces[2].color.setHex(0xE7545B);
-            // mesh.geometry.faces[3].color.setHex(0xE7545B);
-            // // Red Face
-            // mesh.geometry.faces[4].color.setHex(0x7D0F05);
-            // mesh.geometry.faces[5].color.setHex(0x7D0F05);
-            // // Green Face
-            // mesh.geometry.faces[6].color.setHex(0x305A48);
-            // mesh.geometry.faces[7].color.setHex(0x305A48);
-            // // Blue Face
-            // mesh.geometry.faces[8].color.setHex(0x507BDB);
-            // mesh.geometry.faces[9].color.setHex(0x507BDB);
-            // // Beige Face
-            // mesh.geometry.faces[10].color.setHex(0xC99369);
-            // mesh.geometry.faces[11].color.setHex(0xC99369);
+            let cube = this.generateGradientCube()
 
             // Adds the cube and its assigned rotation to the Cubes array of tuples
             let rotation = (Math.random() * 5) - 2;
-            this.Cubes.push([mesh, rotation]);
+            this.Cubes.push([cube, rotation]);
 
             let pos: number[];
             // Prevents the cube from being too close to the camera
@@ -236,19 +210,43 @@ export class HomeSceneComponent implements AfterViewInit, OnDestroy {
 
             // Adds the current cube to the scene.
             this.SCENE.add(this.Cubes[index][0])
-
         }
     }
 
+
+    /** Generates a cube with gradient colors between its vertices. */
+    private generateGradientCube() {
+        const vertexColors = [0xE0AB0B, 0xE7545B, 0x7D0F05, 0x305A48, 0x507BDB, 0xC99369];
+
+        const geometry = new THREE.BoxGeometry();
+        const positionAttribute = geometry.getAttribute('position');
+        const colors = [];
+
+        for (let i = 0; i < positionAttribute.count; i += 3) {
+            for (const vc of vertexColors) {
+                let color = new THREE.Color(vc);
+
+                colors.push(...color.toArray());
+                colors.push(...color.toArray());
+                colors.push(...color.toArray());
+            }
+        }
+
+        // Set the vertex colors for this geometry
+        geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+
+        const material = new THREE.MeshBasicMaterial({ vertexColors: true });
+        return new THREE.Mesh(geometry, material);
+    }
 
 
     /** Generates a simple starfield */
     public AddRandomStars() {
         for (let index = 0; index < 300; index++) {
-            const geometry = new SphereGeometry(0.025, 3, 3);
-            const material = new MeshBasicMaterial({ vertexColors: true });
+            const geometry = new THREE.SphereGeometry(0.025, 3, 3);
+            const material = new THREE.MeshBasicMaterial();
 
-            const mesh = new Mesh(geometry, material);
+            const mesh = new THREE.Mesh(geometry, material);
 
             // Positions the current cube
             let pos = this.ComputeRandomPosition(20, -20);

@@ -1,9 +1,8 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer2, Inject, PLATFORM_ID, OnDestroy, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Renderer2, Inject, PLATFORM_ID } from '@angular/core';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { TimelineLite, Expo } from 'gsap/dist/gsap';
 
 import { PageTransitionService } from '../page-transition/page-transition.service';
-import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'fausto-preloader',

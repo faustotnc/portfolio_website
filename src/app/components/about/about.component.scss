@@ -1,16 +1,11 @@
 @import "../../../helper.scss";
 
-fausto-about-scene {
-    display: block;
-    // opacity: 0.75;
-}
-
 div.about-cylinder {
     width: 100%;
     // max-width: 1400px;
     padding-top: 250px;
     position: absolute;
-    
+
     top: 0;
     left: 0;
 
@@ -46,7 +41,7 @@ div.about-cylinder {
             overflow: hidden;
             @include fluid-value(72px, 144px, 400px, 1920px, font-size); // fluid font size
             @media screen and (max-width: 950px) { line-height: 92px; }
-            
+
             @media screen and (max-width: 624px) {
                 line-height: 64px;
                 letter-spacing: -1.5px;
@@ -96,7 +91,7 @@ div.about-cylinder {
         .left-column {
             .hero-image {
                 width: 100%;
-                
+
                 img { width: 100%; }
 
                 @media screen and (max-width: 1050px) {

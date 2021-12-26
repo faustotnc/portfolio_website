@@ -16,7 +16,7 @@ export interface LoopEvent {
 export class AnimationLoop {
     /**
      * Creates an animation loop
-     * 
+     *
      * @param platform The platform in which the app is running
      * @param framerate The frame-rate to run the animation loop
      * @param callback The callback to run at each frame update
@@ -56,15 +56,13 @@ export class AnimationLoop {
 
     // Cross browser animation frame request
     private readonly REQUEST_ANIMATION_FRAME = (loop: () => void) => {
-        if (isPlatformBrowser(this.platform)) return requestAnimationFrame(loop) || webkitRequestAnimationFrame(loop);
+        if (isPlatformBrowser(this.platform)) return requestAnimationFrame(loop);
     }
 
     // Cross browser animation frame cancellation
     private readonly CANCEL_ANIMATION_FRAME = (loop: number) => {
         if (isPlatformBrowser(this.platform) && cancelAnimationFrame) {
             cancelAnimationFrame(loop);
-        } else if (isPlatformBrowser(this.platform) && webkitCancelAnimationFrame) {
-            webkitCancelAnimationFrame(loop);
         }
     }
 
