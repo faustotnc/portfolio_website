@@ -1,21 +1,36 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { PageTransitionGuard } from './components/page-transition/page-transition.guard';
-
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
+import { PageTransitionGuard } from "./components/page-transition/page-transition.guard";
 
 const routes: Routes = [
-    { path: '', pathMatch: "full", loadChildren: () => import('./components/home/home.module').then(m => m.HomeModule), canActivate: [PageTransitionGuard] },
-    { path: 'about', loadChildren: () => import('./components/about/about.module').then(m => m.AboutModule), canActivate: [PageTransitionGuard] },
-    { path: 'resume', loadChildren: () => import('./components/resume/resume.module').then(m => m.ResumeModule), canActivate: [PageTransitionGuard] },
-    { path: 'contact', loadChildren: () => import('./components/contact/contact.module').then(m => m.ContactModule), canActivate: [PageTransitionGuard] },
-    { path: '**', redirectTo: "/" },
+   {
+      path: "",
+      loadChildren: () => import("./pages/home/home.module").then((m) => m.HomeModule),
+      canActivate: [PageTransitionGuard],
+      data: { routeName: "home" },
+   },
+   {
+      path: "contact",
+      loadChildren: () => import("./pages/contact/contact.module").then((m) => m.ContactModule),
+      canActivate: [PageTransitionGuard],
+      data: { routeName: "contact" },
+   },
+   {
+      path: "about",
+      loadChildren: () => import("./pages/about/about.module").then((m) => m.AboutModule),
+      canActivate: [PageTransitionGuard],
+      data: { routeName: "about" },
+   },
+   {
+      path: "curriculum",
+      loadChildren: () => import("./pages/curriculum/curriculum.module").then((m) => m.CurriculumModule),
+      canActivate: [PageTransitionGuard],
+      data: { routeName: "curriculum" },
+   },
 ];
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes, {
-    initialNavigation: 'enabled',
-    relativeLinkResolution: 'legacy'
-})],
-    exports: [RouterModule]
+   imports: [RouterModule.forRoot(routes)],
+   exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

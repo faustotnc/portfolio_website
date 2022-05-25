@@ -1,0 +1,115 @@
+@import "../../../helper.scss";
+@import "../../../styles.scss";
+
+div.home-page {
+   width: 100%;
+   min-height: 100vh;
+   min-height: calc(var(--vh, 1vh) * 100);
+   position: relative;
+   z-index: 2;
+   overflow: hidden;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+
+   div.scene-wrapper {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      div.scene-container {
+         width: 100%;
+         height: 100%;
+         max-width: 1400px;
+         max-height: 1400px;
+         transform: translate(30%, 20%) scale(1.7);
+
+         canvas {
+            width: 100%;
+            height: 100%;
+            background: red;
+         }
+
+         @media screen and (max-width: 475px) {
+            transform: translate(30%, 30%) scale(1.9);
+         }
+      }
+   }
+
+   div.super-wrapper {
+      margin-top: 72px;
+      position: relative;
+      z-index: 2;
+
+      div.headline {
+         max-width: 1100px;
+         @include fontFamily(secondary);
+
+         .name {
+            margin-bottom: 16px;
+            @include fluid-value(28px, 80px, 330px, 1200px, font-size);
+            font-weight: 600;
+         }
+
+         h3 {
+            @include fluid-value(20px, 48px, 330px, 1200px, font-size);
+            opacity: 0.8;
+            font-weight: 300;
+         }
+      }
+
+      div.quick-facts {
+         max-width: 1200px;
+         margin-top: 128px;
+
+         display: grid;
+         grid-template-columns: auto auto auto;
+
+         div.fact {
+            margin-bottom: 24px;
+
+            p {
+               margin-bottom: 4px;
+               @include fluid-value(16px, 24px, 475px, 1200px, font-size);
+
+               &:nth-child(1) {
+                  @include fluid-value(18px, 28px, 475px, 1200px, font-size);
+                  opacity: 0.7;
+                  margin-bottom: 8px;
+               }
+
+               a {
+                  color: inherit;
+                  text-decoration: dotted underline;
+               }
+            }
+         }
+
+         @media screen and (max-width: 900px) {
+            margin-top: 64px;
+            grid-template-columns: auto auto;
+         }
+
+         @media screen and (max-width: 475px) {
+            margin-top: 64px;
+            grid-template-columns: auto;
+
+            div.fact {
+               p {
+                  font-size: 18px;
+
+                  &:nth-child(1) {
+                     font-size: 20px;
+                  }
+               }
+            }
+         }
+      }
+   }
+}

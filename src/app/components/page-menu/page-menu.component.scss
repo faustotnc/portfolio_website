@@ -1,0 +1,176 @@
+@import "../../../helper.scss";
+@import "../../../styles.scss";
+
+div.PageMenu {
+   width: 100%;
+   height: 100vh;
+   height: calc(var(--vh, 1vh) * 100);
+   position: fixed;
+   top: 0;
+   left: 0;
+   z-index: 100;
+   display: grid;
+   grid-template-columns: 1fr 0.6fr;
+   pointer-events: none;
+   overflow: auto;
+
+   &.open {
+      pointer-events: all;
+   }
+
+   div.left-box {
+      position: relative;
+      padding-top: 112px;
+      padding-bottom: 98px;
+      color: #f4f2ec;
+
+      div.bg {
+         background: #080605;
+         width: 100%;
+         height: 100%;
+         position: absolute;
+         top: 0;
+         left: 0;
+         transform: scaleY(0);
+         z-index: 1;
+      }
+
+      div.content {
+         height: 100%;
+         position: relative;
+         z-index: 2;
+         padding-left: calc(max((100vw - 1400px)/2, 5vw));
+         display: flex;
+         justify-content: center;
+         flex-direction: column;
+
+         div.nav-wrapper {
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+
+            nav {
+               ul {
+                  list-style: none;
+                  li {
+                     margin-bottom: 12px;
+                     overflow: hidden;
+
+                     a {
+                        color: inherit;
+                        text-decoration: none;
+                        font-weight: 600;
+                        display: inline-block;
+                        transform: translateY(100%);
+                        @include typography-variant-h5();
+                        @include fluid-value(24px, 60px, 330px, 1200px, font-size);
+                        @include fluid-value(-0.5px, -2px, 330px, 1200px, letter-spacing);
+
+                        &.active {
+                           pointer-events: none;
+                           opacity: 0.5;
+                        }
+                     }
+                  }
+               }
+            }
+         }
+
+         div.info {
+            flex-shrink: 0;
+            opacity: 0.9;
+
+            p {
+               overflow: hidden;
+               @include fluid-value(10px, 16px, 330px, 1200px, font-size);
+
+               &.version {
+                  @include typography-variant-h4();
+                  margin-bottom: 16px;
+                  font-weight: 600;
+                  @include fluid-value(18px, 34px, 330px, 1200px, font-size);
+               }
+
+               span {
+                  display: block;
+                  transform: translateY(100%);
+               }
+            }
+         }
+      }
+
+      @media screen and (max-width: 800px) {
+         padding-top: 148px;
+         padding-bottom: 24px;
+      }
+
+      @media screen and (max-width: 600px) {
+         padding-top: 96px;
+      }
+   }
+
+   div.right-box {
+      position: relative;
+      padding-top: 112px;
+      padding-bottom: 98px;
+
+      div.bg {
+         background: #e0dfda;
+         width: 100%;
+         height: 100%;
+         position: absolute;
+         top: 0;
+         left: 0;
+         transform: scaleY(0);
+         z-index: 1;
+      }
+
+      div.content {
+         height: 100%;
+         position: relative;
+         z-index: 2;
+         padding-left: calc(min(72px, 5vw));
+         display: flex;
+         justify-content: flex-end;
+         flex-direction: column;
+
+         ul {
+            list-style: none;
+
+            li {
+               margin-bottom: 16px;
+               overflow: hidden;
+               display: block;
+
+               a {
+                  color: inherit;
+                  text-decoration: none;
+                  letter-spacing: -2px;
+                  display: inline-block;
+                  color: #1c1816;
+                  transform: translateY(100%);
+                  @include typography-variant-h3();
+                  @include fluid-value(16px, 48px, 330px, 1200px, font-size);
+                  @include fluid-value(-0.5px, -2px, 330px, 1200px, letter-spacing);
+                  font-weight: 600;
+               }
+            }
+         }
+      }
+
+      @media screen and (max-width: 800px) {
+         padding-top: 24px;
+         padding-bottom: 24px;
+
+         div.content ul li {
+            margin-bottom: 8px;
+         }
+      }
+   }
+
+   @media screen and (max-width: 800px) {
+      grid-template-columns: 1fr;
+      grid-template-rows: 2.5fr 1fr;
+   }
+}

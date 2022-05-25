@@ -1,0 +1,45 @@
+<div class="PageMenu" [ngClass]="{'open': isOpen}">
+   <div class="left-box" #LeftBox>
+      <div class="bg"></div>
+
+      <div class="content">
+         <div class="nav-wrapper">
+            <nav>
+               <ul>
+                  <li *ngFor="let link of MAIN_LINKS">
+                     <a [routerLink]="link.to" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                        <fausto-fancy-underline>{{ link.name }}</fausto-fancy-underline>
+                     </a>
+                  </li>
+               </ul>
+            </nav>
+         </div>
+
+         <div class="info">
+            <p class="version">
+               <span>v8.0.0</span>
+            </p>
+            <p>
+               <span>Website designed/coded by Fausto German.</span>
+            </p>
+            <p>
+               <span>Copyright © 2022 Fausto German. All Rights Reserved.</span>
+            </p>
+         </div>
+      </div>
+   </div>
+
+   <div class="right-box" #RightBox>
+      <div class="bg"></div>
+
+      <div class="content">
+         <ul>
+            <li *ngFor="let link of SOCIAL_LINKS">
+               <a [href]="link.to" target="_blank" rel="noopener">
+                  <fausto-fancy-underline>{{ link.name }}</fausto-fancy-underline>
+               </a>
+            </li>
+         </ul>
+      </div>
+   </div>
+</div>

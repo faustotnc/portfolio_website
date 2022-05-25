@@ -1,0 +1,23 @@
+footer {
+   display: flex;
+   justify-content: center;
+   margin-top: 132px;
+
+   div.super-wrapper {
+      border-top: 1px solid currentColor;
+      padding: 5vh 0;
+
+      p {
+         font-size: 12px;
+         margin-bottom: 12px;
+
+         &:last-of-type {
+            margin-bottom: 0;
+         }
+      }
+   }
+
+   @media screen and (max-width: 600px) {
+      margin-top: 64px;
+   }
+}

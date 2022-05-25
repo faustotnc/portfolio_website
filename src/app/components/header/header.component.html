@@ -1,0 +1,25 @@
+<header [ngClass]="{'menu-open': isMenuOpen}">
+   <div class="super-wrapper">
+      <div class="left">
+         <h1><a routerLink="/">
+               <fausto-fancy-underline>fausto german</fausto-fancy-underline>
+            </a></h1>
+      </div>
+
+      <div class="right">
+         <p variant="h5">
+            {{!isMenuOpen ? "Menu" : "Close"}}
+         </p>
+         <div class="dash">
+            <span></span>
+         </div>
+         <button class="menu-bars" [ngClass]="{'opened': isMenuOpen}" (click)="isMenuOpen = !isMenuOpen">
+            <span></span>
+            <span></span>
+            <span></span>
+         </button>
+      </div>
+   </div>
+</header>
+
+<fausto-page-menu [isOpen]="isMenuOpen"></fausto-page-menu>
