@@ -1,30 +1,36 @@
-@import '../../../helper.scss';
+@import "../../../styles.scss";
+@import "../../../helper.scss";
 
-div.transition-cylinder {
-    width: 100%;
-    height: 100vh;
-    height: calc(var(--vh, 1vh) * 100);
-    position: fixed;
-    top: 0;
-    left: 0;
-    background: #111111;
-    background: var(--color-toolbar);
-    z-index: 1200;
-    transform: translateY(100%);
-    transition: 0.5s ease-in-out background;
-    @include flex(center, row);
-    align-items: center;
+div.wrapper {
+   width: 100%;
+   height: 100vh;
+   height: calc(var(--vh, 1vh) * 100);
+   position: fixed;
+   top: 0;
+   left: 0;
+   z-index: 101;
+   background: var(--color-primary-main);
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   transform: translateY(-101%);
+   transition: background easing("standard") 1s;
 
-    .title-wrapper {
-        width: fit-content;
-        height: fit-content;
-        overflow: hidden;
-        h1 {
-            font-weight: 700;
-            @include fluid-value(24px, 52px, 100px, 1400px, font-size);
-            // color: #393a4a;
-            color: var(--color-primary);
-            transition: 0.5s ease-in-out color;
-        }
-    }
+   div.content {
+      overflow: hidden;
+
+      p {
+         @include typography-variant-h2();
+         @include fontFamily(secondary);
+         font-weight: 600;
+         transform: translateY(-103%);
+         color: var(--color-primary-txt-contrast);
+         transition: color easing("standard") 1s;
+
+         @media screen and (max-width: 800px) {
+            @include typography-variant-h4();
+            font-weight: 600;
+         }
+      }
+   }
 }

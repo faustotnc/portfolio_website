@@ -1,29 +1,118 @@
 /* You can add global styles to this file, and also import other style files */
-@import './helper.scss';
 
 :root {
-    // These values are updated in the
-    // app.component.ts based on the route.
-    --color-primary: #010101;
-    --color-toolbar: #f7f7f7;
+   // Colors
+   --color-bg-main: #0d0b0a;
+   --color-bg-paper: #52453f;
+   --color-txt-main: #f5f2eb;
+   --color-primary-main: #aca199;
+   --color-primary-light: rgb(188, 179, 173);
+   --color-primary-dark: rgb(120, 112, 107);
+   --color-primary-txt-contrast: rgba(0, 0, 0, 0.87);
+   --color-secondary-main: #f5f2ec;
+   --color-secondary-light: rgb(247, 244, 239);
+   --color-secondary-dark: rgb(171, 169, 165);
+   --color-secondary-txt-contrast: rgba(0, 0, 0, 0.87);
 }
 
+@mixin fontFamily($which: primary) {
+   @if $which == primary {
+      font-family: "Inter", "Helvetica", "Arial", sans-serif;
+   } @else {
+      font-family: "Playfair Display", serif;
+   }
+}
 
-// Inter Variable Font --> https://rsms.me/inter/
-@import url('https://rsms.me/inter/inter.css');
-html { font-family: 'Inter', sans-serif; }
-@supports (font-variation-settings: normal) {
-    html { font-family: 'Inter var', sans-serif; }
+html {
+   -webkit-font-smoothing: antialiased;
+   -webkit-text-size-adjust: 100%;
 }
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    outline: none;
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
 }
 
-body, html {
-    background: var(--color-primary);
-    -webkit-font-smoothing: antialiased;
+body {
+   @include fontFamily(primary);
+   background: var(--color-bg-main);
+   color: var(--color-txt-main);
+}
+
+div.super-wrapper {
+   width: 90%;
+   max-width: 1400px;
+}
+
+@mixin typography-variant-h1 {
+   margin: 0;
+   letter-spacing: normal;
+   font-weight: 300;
+   font-size: 6rem;
+   line-height: 1.167;
+}
+
+.variant-h1 {
+   @include typography-variant-h1();
+}
+
+@mixin typography-variant-h2 {
+   margin: 0;
+   letter-spacing: normal;
+   font-weight: 300;
+   font-size: 3.75rem;
+   line-height: 1.2;
+}
+
+.variant-h2 {
+   @include typography-variant-h2();
+}
+
+@mixin typography-variant-h3 {
+   margin: 0;
+   letter-spacing: normal;
+   font-weight: 400;
+   font-size: 3rem;
+   line-height: 1.167;
+}
+
+.variant-h3 {
+   @include typography-variant-h3();
+}
+
+@mixin typography-variant-h4 {
+   margin: 0;
+   letter-spacing: normal;
+   font-weight: 400;
+   font-size: 2.125rem;
+   line-height: 1.235;
+}
+
+.variant-h4 {
+   @include typography-variant-h4();
+}
+
+@mixin typography-variant-h5 {
+   margin: 0;
+   letter-spacing: normal;
+   font-weight: 400;
+   font-size: 1.5rem;
+   line-height: 1.334;
+}
+
+.variant-h5 {
+   @include typography-variant-h5();
+}
+
+@mixin typography-variant-h6 {
+   margin: 0;
+   letter-spacing: normal;
+   font-weight: 400;
+   font-size: 1.25rem;
+   line-height: 1.334;
+}
+
+.variant-h6 {
+   @include typography-variant-h6();
 }

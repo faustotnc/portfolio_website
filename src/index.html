@@ -2,118 +2,22 @@
 <html lang="en">
 
 <head>
+   <meta charset="utf-8">
+   <base href="/">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="icon" type="image/x-icon" href="favicon.ico">
 
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <link rel="preconnect" href="https://www.google-analytics.com">
-    <script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-92161341-1"></script>
-    <script>window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments); } gtag('js', new Date()); gtag('config', 'UA-92161341-1');</script>
+   <title>Fausto German</title>
 
-    <meta charset="utf-8">
-    <base href="/">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- Favicons -->
-    <link rel="icon" type="image/x-icon" href="/favicons/favicon.ico">
-    <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png">
-
-    <!-- PWA Stuff -->
-    <link rel="manifest" href="manifest.webmanifest">
-    <meta name="theme-color" content="#010101">
-
-    <!-- Title and Description -->
-    <title>Fausto German</title>
-    <meta name="description"
-        content="My name is Fausto German. I'm a creative programmer pursuing a degree in computer science and an specialization in machine learning engineering.">
-
-    <!-- Open Graph tags for Twitter and Facebook -->
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:creator" content="@faustotnc" />
-    <meta property="og:title" content="Fausto German's Official Website">
-    <meta property="og:site_name" content="Fausto German">
-    <meta property="og:url" content="https://faustogerman.com">
-    <meta property="og:description"
-        content="My name is Fausto German. I'm a creative programmer pursuing a degree in computer science and an specialization in machine learning engineering.">
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="https://faustogerman.com/assets/images/twitter-card-attachment.jpg">
-
-    <!-- Robots -->
-    <meta name="robots" content="index, follow">
-
-    <!-- Some styles for the noscript tag. This will only
-    be rendered if JavaScript is disabled -->
-    <noscript>
-        <style>
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-            }
-
-            #loading-cover {
-                display: none !important;
-            }
-
-            noscript {
-                width: 100%;
-                height: 100vh;
-                background: #010101;
-                color: #fff;
-                display: grid;
-                margin: 0;
-                padding: 0;
-                text-align: center;
-                grid-template-rows: 1fr .1fr .1fr 1fr;
-                padding: 0 15px;
-            }
-
-            noscript h1 {
-                grid-row-start: 2;
-                margin-bottom: 24px;
-                font-size: 28px;
-                font-family: pt-sans-pro, sans-serif;
-            }
-
-            noscript p {
-                grid-row-start: 3;
-                width: 80%;
-                max-width: 460px;
-                font-family: pt-sans-pro, sans-serif;
-                margin: auto
-            }
-        </style>
-    </noscript>
-
-    <style>
-        #loading-cover {
-            width: 100%;
-            height: 100vh;
-            position: fixed;
-            top: 0;
-            left: 0;
-            background: #e1e1e1;
-            z-index: 2999;
-        }
-    </style>
-    <link rel="manifest" href="manifest.webmanifest">
-    <meta name="theme-color" content="#1976d2">
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600&family=Playfair+Display:wght@400;500;600;700&display=swap"
+      rel="stylesheet">
 </head>
 
 <body>
-    <div id="loading-cover"></div>
-
-    <fausto-root></fausto-root>
-
-    <noscript>
-        <h1>I run purely on JS...</h1>
-        <p>It seems like you have disabled JavaScript in your browser. Please turn it on and then hit refresh.</p>
-    </noscript>
-
-    <!-- We register the service worker from the index.html because angular SSR does not work when called from the main.ts file -->
-    <script>if ('serviceWorker' in navigator) navigator.serviceWorker.register('/ngsw-worker.js').catch(function (e) {
-            console.log('There was a problem installing the service worker', e)
-        });</script>
+   <fausto-root></fausto-root>
 </body>
 
 </html>

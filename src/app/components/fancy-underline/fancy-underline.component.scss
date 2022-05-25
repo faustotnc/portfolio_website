@@ -1,0 +1,24 @@
+@import "../../../helper.scss";
+
+span.underlined {
+   width: fit-content;
+   display: block;
+
+   &::after {
+      content: "";
+      width: 100%;
+      height: 3px;
+      display: block;
+      background: currentColor;
+      transition: transform 500ms easing("standard");
+      transform: scaleX(0);
+      transform-origin: center right;
+   }
+
+   &:hover {
+      &::after {
+         transform: scaleX(1);
+         transform-origin: center left;
+      }
+   }
+}

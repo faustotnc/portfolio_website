@@ -1,0 +1,98 @@
+@import "../../../helper.scss";
+@import "../../../styles.scss";
+
+div.main {
+   width: 100%;
+   @include fluid-value(400px, 600px, 330px, 1200px, height);
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   background: rgba(#000, 0.1);
+   position: relative;
+
+   div.super-wrapper {
+      max-width: 1100px;
+      transform: translateY(64px);
+      position: relative;
+      z-index: 2;
+
+      h1 {
+         @include fontFamily(secondary);
+         @include typography-variant-h2();
+         font-weight: 600;
+         @include fluid-value(32px, 80px, 330px, 1200px, font-size);
+         letter-spacing: -1px;
+      }
+
+      @media screen and (max-width: 600px) {
+         transform: translateY(32px);
+      }
+   }
+}
+
+
+section {
+   width: 100%;
+
+   &:last-of-type {
+      margin-bottom: 112px;
+   }
+
+   div.section-wrapper {
+      width: 90%;
+      max-width: 1100px;
+      margin: auto;
+
+      div.section-content {
+         max-width: 900px;
+      }
+
+      h2.section-title {
+         @include fontFamily(secondary);
+         @include typography-variant-h4();
+         font-weight: 600;
+         margin-top: 3rem;
+         // color: var(--color-secondary-dark);
+         color: rgb(38, 82, 143);
+      }
+
+      div.subsection {
+         margin-top: 1rem;
+
+         h3.subsection-title {
+            @include fontFamily(secondary);
+            @include typography-variant-h6();
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+         }
+
+         
+
+         p {
+            margin-bottom: 4px;
+            font-weight: 500;
+            font-size: 15px;
+
+            b {
+               font-weight: 700;
+               color: #000;
+            }
+         }
+
+         ul {
+            padding-left: 2rem;
+
+            li {
+               padding-left: 1rem;
+               margin-bottom: 4px;
+               font-weight: 500;
+               font-size: 15px;
+            }
+         }
+
+         a {
+            color: rgb(38, 82, 143);
+         }
+      }
+   }
+}

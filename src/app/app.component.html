@@ -1,12 +1,8 @@
-<fausto-preloader *ngIf="!pageLoaded"></fausto-preloader>
+<fausto-film-grain></fausto-film-grain>
+<fausto-header></fausto-header>
 <fausto-page-transition></fausto-page-transition>
-<fausto-toolbar></fausto-toolbar>
-<fausto-mouse-cursor [cursorColor]="cursorColor"></fausto-mouse-cursor>
-<fausto-screen-restrictions></fausto-screen-restrictions>
+<fausto-preloader *ngIf="!pageLoaded"></fausto-preloader>
 
-
-<div class="content-wrapper">
-    <silky-scroll momentum="10">
-        <router-outlet></router-outlet>
-    </silky-scroll>
-</div>
+<silky-scroll [momentum]="scrollMomentum">
+   <router-outlet></router-outlet>
+</silky-scroll>
