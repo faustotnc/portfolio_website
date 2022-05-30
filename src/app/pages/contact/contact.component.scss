@@ -1,14 +1,6 @@
 @import "../../../helper.scss";
 
 main.contact-page-cylinder {
-   // background: color(primary);
-
-   // Makes the selection of the text in the
-   // home page be appropriate for the theme of the website.
-   * {
-      @include customSelectColor(var(--color-txt-main), var(--color-bg-main));
-   }
-
    @include flex(center, row);
 
    .content-wrapper {
