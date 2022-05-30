@@ -27,6 +27,10 @@ const routes: Routes = [
       canActivate: [PageTransitionGuard],
       data: { routeName: "curriculum" },
    },
+   {
+      path: "**",
+      redirectTo: "/",
+   },
 ];
 
 @NgModule({
